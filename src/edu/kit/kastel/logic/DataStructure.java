@@ -142,12 +142,12 @@ public class DataStructure implements DataStructureCommands {
     @Override
     public String todo() {
         StringBuilder result = superiorTasks.todo(-1);
-        return result.delete(0, 2).toString();
+        return result.delete(0, 1).toString();
     }
 
     @Override
     public String list(int listIndex) {
-        return taskLists.get(listIndex).list().delete(0, 2).toString();
+        return taskLists.get(listIndex).list().delete(0, 1).toString();
     }
 
     @Override

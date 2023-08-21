@@ -211,7 +211,7 @@ public class PriorityList {
             }
         }
         if (!result.isEmpty()) {
-            return result.delete(0, 2).toString();
+            return result.delete(0, 1).toString();
         }
         return "Nein!";
     }

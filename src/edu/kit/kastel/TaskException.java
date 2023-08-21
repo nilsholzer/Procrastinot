@@ -5,7 +5,7 @@ package edu.kit.kastel;
  * @author uhquw
  * @version 1.0.0
  */
-public class TaskException extends IllegalArgumentException {
+public final class TaskException extends IllegalArgumentException {
     /**
      * Constructs a new TaskException.
      * @param message   describes, why exception was thrown

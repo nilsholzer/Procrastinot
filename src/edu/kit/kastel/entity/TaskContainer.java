@@ -60,4 +60,43 @@ public class TaskContainer {
             noPriority.remove(task);
         }
     }
+
+    public StringBuilder show(int whitespaceCount) {
+        int updatedWhitespaceCount = whitespaceCount + 1;
+        StringBuilder result = new StringBuilder();
+        for (List<Task> priorities : tasks) {
+            for (Task task : priorities) {
+                result.append(System.lineSeparator()).append(task.show(updatedWhitespaceCount));
+            }
+        }
+        return result;
+    }
+
+    public StringBuilder todo(int whitespaceCount) {
+        int updatedWhitespaceCount = whitespaceCount + 1;
+        StringBuilder result = new StringBuilder();
+        for (List<Task> priorities : tasks) {
+            for (Task task : priorities) {
+                if (task.hasOpenedChildren()) {
+                    result.append(System.lineSeparator()).append(task.todo(updatedWhitespaceCount));
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isInList(Task searchedTask) {
+        for (List<Task> priorities : tasks) {
+            for (Task task : priorities) {
+                if (task.isInList(searchedTask)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected List<List<Task>> getTasks() {
+        return tasks;
+    }
 }

@@ -30,7 +30,6 @@ public abstract class Entity {
     }
 
     abstract void assign(Task task);
-    abstract int delete(Task task);
 
     //everything from TaskInterface apart from assign as normal method
     //rest is abstract

@@ -12,10 +12,11 @@ public final class Task extends Entity {
     private Task parent;
     private LocalDate date;
     private Priority priority;
-    private final PriorityList children;
+    private final Children children;
     private State currentState;
     private State restoreState;
     private final List<Integer> assignedLists;
+    private final List<String> tags;
 
     public Task(final int id, final String name, final Priority priority) {
         this(id, name, priority, null);
@@ -27,17 +28,18 @@ public final class Task extends Entity {
         this.priority = priority;
         this.date = date;
         parent = null;
-        children = new PriorityList();
+        children = new Children();
         currentState = State.OPEN;
         assignedLists = new ArrayList<>();
+        tags = getTags();
     }
 
     @Override
-    public void assign(Task assignedTask) {
+    public void assign(Task task) {
         isDeleted("assign a task to");
-        if (!children.isElement(assignedTask)) {
-            assignedTask.getAssigned(this);
-            children.assign(assignedTask);
+        if (!children.isElement(task)) {
+            task.getAssigned(this);
+            children.assign(task);
         } else {
             throw new TaskException("Task is already assigned to given task");
         }
@@ -64,17 +66,16 @@ public final class Task extends Entity {
             }
             return children.toggle(id);
         } else {
-            currentState = parent.getCurrentState();
+            currentState = parent.currentState;
             return children.toggle(id) + 1;
         }
     }
 
-    @Override
     public int delete(final Task task) {
         isDeleted("restore");
         restoreState = currentState;
         currentState = State.DELETED;
-        if (this.equals(task)) {
+        if (this == task) {
             if (parent != null) {
                 parent.removeChild(this);
             }
@@ -90,7 +91,7 @@ public final class Task extends Entity {
         }
         currentState = restoreState;
         if (this.id == id) {
-            if (parent != null && parent.getCurrentState() != State.DELETED) {
+            if (parent != null && parent.currentState != State.DELETED) {
                 parent.assign(this);
             } else {
                 parent = null;
@@ -114,7 +115,6 @@ public final class Task extends Entity {
         StringBuilder result = new StringBuilder();
         result.append("  ".repeat(Math.max(0, whitespaceCount)));
         result.append("-").append(currentState.abbreviation).append(name).append(priority.abbreviation);
-        List<String> tags = getTags();
         if (!tags.isEmpty()) {
             result.append(": (");
             for (int tagCount = 0; tagCount < tags.size() - 1; tagCount++) {
@@ -136,7 +136,7 @@ public final class Task extends Entity {
         return result.toString();
     }
 
-    public void isDeleted(String errorMessage) {
+    private void isDeleted(String errorMessage) {
         if (currentState == State.DELETED) {
             throw new TaskException("You cannot " + errorMessage + " a deleted task");
         }
@@ -180,16 +180,8 @@ public final class Task extends Entity {
         }
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public State getCurrentState() {
-        return currentState;
     }
 
     public void assignList(int listIndex) {
@@ -210,7 +202,6 @@ public final class Task extends Entity {
 
     public List<Task> taggedWith(String tag) {
         List<Task> list = new ArrayList<>();
-        List<String> tags = getTags();
         for (String taskTag : tags) {
             if (taskTag.equals(tag)) {
                 list.add(this);
@@ -243,7 +234,7 @@ public final class Task extends Entity {
     }
 
     public boolean isDuplicate(Task task) {
-        return ((date == null || task.getDate() == null) || date.equals(task.getDate())) && name.equals(task.getName());
+        return ((date == null || task.date == null) || date.equals(task.date)) && name.equals(task.getName());
     }
 
     public Task getParent() {

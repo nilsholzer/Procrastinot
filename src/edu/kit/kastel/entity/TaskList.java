@@ -4,41 +4,39 @@ import edu.kit.kastel.TaskException;
 
 public class TaskList extends Entity {
 
-    private final PriorityList tasks;
+    private final ListOfTasks listOfTasks;
 
     public TaskList(final String name) {
         super(name);
-        tasks = new PriorityList();
+        listOfTasks = new ListOfTasks();
     }
 
     @Override
     public void assign(Task task) {
-        if (!tasks.isInList(task)) {
-            Task childTask = tasks.childIsInList(task);
+        if (!listOfTasks.isInList(task)) {
+            Task childTask = listOfTasks.childIsInList(task);
             if (childTask != null) {
-                tasks.remove(childTask);
+                listOfTasks.remove(childTask);
             }
-            tasks.assign(task);
+            listOfTasks.assign(task);
         } else {
             throw new TaskException("Task is already in this list");
         }
     }
 
     public StringBuilder list() {
-        return tasks.show(-1);
+        return listOfTasks.show(-1);
     }
 
-    @Override
-    public int delete(Task task) {
-        if (tasks.isElement(task)) {
-            tasks.remove(task);
+    public void delete(Task task) {
+        if (listOfTasks.isElement(task)) {
+            listOfTasks.remove(task);
         }
-        return 1;
     }
 
     public void restore(Task task) {
-        if (!tasks.isInList(task)) {
-            tasks.assign(task);
+        if (!listOfTasks.isInList(task)) {
+            listOfTasks.assign(task);
         }
     }
 }

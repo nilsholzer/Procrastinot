@@ -1,9 +1,6 @@
 package edu.kit.kastel.logic;
 
-import edu.kit.kastel.entity.Priority;
-import edu.kit.kastel.entity.PriorityList;
-import edu.kit.kastel.entity.Task;
-import edu.kit.kastel.entity.TaskList;
+import edu.kit.kastel.entity.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +13,7 @@ import java.util.List;
  * @version 1.0.0
  */
 public class DataStructure implements DataStructureCommands {
-    private final PriorityList superiorTasks;
+    private final SuperiorTasks superiorTasks;
     private final List<Task> tasks;
     private final List<TaskList> taskLists;
 
@@ -24,7 +21,7 @@ public class DataStructure implements DataStructureCommands {
      * Constructs a new Data Structure.
      */
     public DataStructure() {
-        superiorTasks = new PriorityList();
+        superiorTasks = new SuperiorTasks();
         tasks = new ArrayList<>();
         taskLists = new ArrayList<>();
     }
@@ -195,7 +192,7 @@ public class DataStructure implements DataStructureCommands {
      * @param name The name of the list to be searched
      * @return The index of the list, if a list with this name exists {@code -1} if there is no list with this name
      */
-    public int containsList(String name) {
+    public int listIndex(String name) {
         for (int i = 0; i < taskLists.size(); i++) {
             if (name.equals(taskLists.get(i).getName())) {
                 return i;

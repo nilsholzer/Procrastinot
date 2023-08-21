@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @author uhquw
  * @version 1.0.0
  */
-public class Procrastinot implements ProcrastinotCommands {
+public final class Procrastinot implements ProcrastinotCommands {
     private ExecutionState executionState;
     private final DataStructure dataStructure;
 
@@ -64,7 +64,7 @@ public class Procrastinot implements ProcrastinotCommands {
 
     @Override
     public String addList(String name) {
-        if (dataStructure.containsList(name) != -1) {
+        if (dataStructure.listIndex(name) != -1) {
             throw new TaskException("A list with that name already exists");
         }
         dataStructure.addList(new TaskList(name));
@@ -80,7 +80,7 @@ public class Procrastinot implements ProcrastinotCommands {
 
     @Override
     public String tagList(String name, String tag) {
-        int listIndex = dataStructure.containsList(name);
+        int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
             throw new TaskException("No list with this name exists");
         }
@@ -102,7 +102,7 @@ public class Procrastinot implements ProcrastinotCommands {
     @Override
     public String assignList(int id, String name) {
         taskAvailable(id);
-        int listIndex = dataStructure.containsList(name);
+        int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
             throw new TaskException("A list with that name does not exist");
         }
@@ -172,7 +172,7 @@ public class Procrastinot implements ProcrastinotCommands {
 
     @Override
     public String list(String name) {
-        int listIndex = dataStructure.containsList(name);
+        int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
             throw new TaskException("A list with that name does not exist");
         }

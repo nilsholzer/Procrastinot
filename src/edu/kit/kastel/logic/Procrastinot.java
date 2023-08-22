@@ -30,6 +30,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     private static final String DUPLICATED = "Found %s duplicates: ";
     private static final String COMMA = ", ";
     private static final String LIST_NOT_EXIST = "A list with that name does not exist";
+    private static final int SEVEN = 7;
     private ExecutionState executionState;
     private final DataStructure dataStructure;
 
@@ -200,7 +201,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     @Override
     public String upcoming(String date) {
         LocalDate startDate = createDate(date).minusDays(1);
-        LocalDate finishDate = createDate(date).plusDays(7);
+        LocalDate finishDate = createDate(date).plusDays(SEVEN);
         return dataStructure.between(startDate, finishDate);
     }
 

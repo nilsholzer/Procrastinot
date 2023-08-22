@@ -16,36 +16,36 @@ public enum Command {
      * This command adds a new task.
      */
     ADD("^add" + Expressions.NAME + "((" + Expressions.PRIORITY + "|" + Expressions.DATE + ")?|("
-            + Expressions.PRIORITY + Expressions.DATE + "))$") {
+            + Expressions.PRIORITY + Expressions.DATE + "))" + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             if (split.length == 2) {
                 return procrastinot.add(split[1], "", "");
-            } else if (split.length == 3) {
+            } else if (split.length == THREE) {
                 return procrastinot.add(split[1], split[2], "");
             } else {
-                return procrastinot.add(split[1], split[2], split[3]);
+                return procrastinot.add(split[1], split[2], split[THREE]);
             }
         }
     },
     /**
      * This command adds a new list.
      */
-    ADD_LIST("^add-list" + Expressions.LIST + "$") {
+    ADD_LIST("^add-list" + Expressions.LIST + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.addList(split[1]);
         }
     },
     /**
      * This command tags a task with a tag.
      */
-    TAG("^tag" + Expressions.ID + Expressions.TAG + "$") {
+    TAG("^tag" + Expressions.ID + Expressions.TAG) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             int id = Integer.parseInt(split[1]);
             return procrastinot.tag(id, split[2]);
         }
@@ -53,20 +53,20 @@ public enum Command {
     /**
      * This command tags a list with a tag.
      */
-    TAG_LIST("^tag" + Expressions.LIST + Expressions.TAG + "$") {
+    TAG_LIST("^tag" + Expressions.LIST + Expressions.TAG) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.tagList(split[1], split[2]);
         }
     },
     /**
      * This command assigns one task to another task.
      */
-    ASSIGN(Expressions.ASSIGN + Expressions.ID + "$") {
+    ASSIGN(Expressions.ASSIGN + Expressions.ID + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             int childId = Integer.parseInt(split[1]);
             int parentId = Integer.parseInt(split[2]);
             return procrastinot.assign(childId, parentId);
@@ -75,10 +75,10 @@ public enum Command {
     /**
      * This command assigns a task to a list.
      */
-    ASSIGN_LIST(Expressions.ASSIGN + Expressions.LIST + "$") {
+    ASSIGN_LIST(Expressions.ASSIGN + Expressions.LIST + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             int id = Integer.parseInt(split[1]);
             return procrastinot.assignList(id, split[2]);
         }
@@ -86,20 +86,20 @@ public enum Command {
     /**
      * This command toggles a task and all its subtasks.
      */
-    TOGGLE("^toggle" + Expressions.ID + "$") {
+    TOGGLE("^toggle" + Expressions.ID + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.toggle(Integer.parseInt(split[1]));
         }
     },
     /**
      * This command changes the deadline of a task.
      */
-    CHANGE_DATE("^change-date" + Expressions.ID + Expressions.DATE + "$") {
+    CHANGE_DATE("^change-date" + Expressions.ID + Expressions.DATE + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             int id = Integer.parseInt(split[1]);
             return procrastinot.changeDate(id, split[2]);
         }
@@ -107,10 +107,10 @@ public enum Command {
     /**
      * This command changes the priority of a task.
      */
-    CHANGE_PRIORITY("^change-priority" + Expressions.ID + Expressions.OPTIONAL_PRIORITY + "$") {
+    CHANGE_PRIORITY("^change-priority" + Expressions.ID + Expressions.OPTIONAL_PRIORITY) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             int id = Integer.parseInt(split[1]);
             if (split.length == 2) {
                 return procrastinot.changePriority(id, "NO_PRIORITY");
@@ -121,30 +121,30 @@ public enum Command {
     /**
      * This command deletes a task and all its subtasks.
      */
-    DELETE("^delete" + Expressions.ID + "$") {
+    DELETE("^delete" + Expressions.ID + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.delete(Integer.parseInt(split[1]));
         }
     },
     /**
      * This command restores a task and all its subtasks.
      */
-    RESTORE("^restore" + Expressions.ID + "$") {
+    RESTORE("^restore" + Expressions.ID + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.restore(Integer.parseInt(split[1]));
         }
     },
     /**
      * This command shows a task and all its subtasks.
      */
-    SHOW("^show" + Expressions.ID + "$") {
+    SHOW("^show" + Expressions.ID + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.show(Integer.parseInt(split[1]));
         }
     },
@@ -160,60 +160,60 @@ public enum Command {
     /**
      * This command shows all tasks, and their subtasks, that are part of a specific list.
      */
-    LIST("^list" + Expressions.LIST + "$") {
+    LIST("^list" + Expressions.LIST + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.list(split[1]);
         }
     },
     /**
      * This command shows all tasks, and their subtasks, that are tagged with a specific tag.
      */
-    TAGGED_WITH("^tagged-with" + Expressions.TAG + "$") {
+    TAGGED_WITH("^tagged-with" + Expressions.TAG) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.taggedWith(split[1]);
         }
     },
     /**
      * This command lists all tasks, and their subtasks, whose name contains a specific String.
      */
-    FIND("^find" + Expressions.NAME + "$") {
+    FIND("^find" + Expressions.NAME + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.find(split[1]);
         }
     },
     /**
      * This command lists all tasks, and their subtasks, whose deadline is within the next 7 days of the specific date.
      */
-    UPCOMING("^upcoming" + Expressions.DATE + "$") {
+    UPCOMING("^upcoming" + Expressions.DATE + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.upcoming(split[1]);
         }
     },
     /**
      * This command lists all tasks, and their subtasks, whose deadline is before and on the specific date.
      */
-    BEFORE("^before" + Expressions.DATE + "$") {
+    BEFORE("^before" + Expressions.DATE + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.before(split[1]);
         }
     },
     /**
      * This command lists all tasks, and their subtasks, whose deadline is in between the two specific dates.
      */
-    BETWEEN("^between" + Expressions.DATE + Expressions.DATE + "$") {
+    BETWEEN("^between" + Expressions.DATE + Expressions.DATE + Expressions.REG_END) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
-            String[] split = input.split(" ");
+            String[] split = input.split(WHITESPACE);
             return procrastinot.between(split[1], split[2]);
         }
     },
@@ -236,6 +236,8 @@ public enum Command {
             return null;
         }
     };
+    private static final String WHITESPACE = " ";
+    private static final int THREE = 3;
     private final Pattern pattern;
 
     Command(final String pattern) {

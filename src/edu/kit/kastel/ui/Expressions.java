@@ -34,7 +34,7 @@ public final class Expressions {
     /**
      * Regex for a not empty String only containing letters and numbers.
      */
-    static final String TAG_REGEX = " \\w+" + REG_END;
+    static final String TAG_REGEX = " [a-zA-Z0-9]+" + REG_END;
     /**
      * Regex for a not empty String only containing letters.
      */

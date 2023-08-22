@@ -12,6 +12,8 @@ import java.util.List;
  * @version 1.0.0
  */
 public final class Task extends Entity implements TaskInterface {
+    private static final String DATE_SEPARATOR = "-";
+    private static final int TEN = 10;
     private final String name;
     private final int id;
     private Task parent;
@@ -152,7 +154,7 @@ public final class Task extends Entity implements TaskInterface {
     private String toString(final int whitespaceCount) {
         StringBuilder result = new StringBuilder();
         result.append("  ".repeat(Math.max(0, whitespaceCount)));
-        result.append("-").append(currentState.abbreviation).append(name).append(priority.abbreviation);
+        result.append(DATE_SEPARATOR).append(currentState.abbreviation).append(name).append(priority.abbreviation);
         if (!tags.isEmpty()) {
             result.append(": (");
             for (int tagCount = 0; tagCount < tags.size() - 1; tagCount++) {
@@ -165,11 +167,15 @@ public final class Task extends Entity implements TaskInterface {
                 result.append(":");
             }
             result.append(" --> ");
-            result.append(date.getYear()).append("-");
-            if (date.getMonthValue() < 10) {
+            result.append(date.getYear()).append(DATE_SEPARATOR);
+            if (date.getMonthValue() < TEN) {
                 result.append(0);
             }
-            result.append(date.getMonthValue()).append("-").append(date.getDayOfMonth());
+            result.append(date.getMonthValue()).append(DATE_SEPARATOR);
+            if (date.getDayOfMonth() < TEN) {
+                result.append(0);
+            }
+            result.append(date.getDayOfMonth());
         }
         return result.toString();
     }

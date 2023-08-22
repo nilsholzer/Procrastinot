@@ -11,6 +11,7 @@ import java.util.List;
  * @version 1.0.0
  */
 public class SuperiorTasks extends TaskContainer {
+    private static final String EMPTY = "";
     private static final String ILLEGAL_ACCESS = "Cannot execute this method with a SuperiorTask";
     private final List<List<Task>> superiorTasks;
 
@@ -49,7 +50,7 @@ public class SuperiorTasks extends TaskContainer {
         if (!result.isEmpty()) {
             return result.delete(0, 1).toString();
         }
-        return "nein";
+        return EMPTY;
     }
 
     /**
@@ -70,7 +71,7 @@ public class SuperiorTasks extends TaskContainer {
         if (!result.isEmpty()) {
             return result.delete(0, 1).toString();
         }
-        return "nein";
+        return EMPTY;
     }
 
     /**
@@ -92,7 +93,7 @@ public class SuperiorTasks extends TaskContainer {
         if (!result.isEmpty()) {
             return result.delete(0, 1).toString();
         }
-        return "Nein!";
+        return EMPTY;
     }
 
     /**
@@ -113,6 +114,6 @@ public class SuperiorTasks extends TaskContainer {
         if (!result.isEmpty()) {
             return result.delete(0, 1).toString();
         }
-        return "Nein!";
+        return EMPTY;
     }
 }

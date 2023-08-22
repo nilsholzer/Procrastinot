@@ -42,7 +42,7 @@ public enum Command {
     /**
      * This command tags a task with a tag.
      */
-    TAG("^tag" + Expressions.ID + Expressions.TAG) {
+    TAG(Expressions.TAG + Expressions.ID + Expressions.TAG_REGEX) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -53,7 +53,7 @@ public enum Command {
     /**
      * This command tags a list with a tag.
      */
-    TAG_LIST("^tag" + Expressions.LIST + Expressions.TAG) {
+    TAG_LIST(Expressions.TAG + Expressions.LIST + Expressions.TAG_REGEX) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -170,7 +170,7 @@ public enum Command {
     /**
      * This command shows all tasks, and their subtasks, that are tagged with a specific tag.
      */
-    TAGGED_WITH("^tagged-with" + Expressions.TAG) {
+    TAGGED_WITH("^tagged-with" + Expressions.TAG_REGEX) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);

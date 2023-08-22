@@ -34,7 +34,7 @@ public final class Expressions {
     /**
      * Regex for a not empty String only containing letters and numbers.
      */
-    static final String TAG = " \\w[^_]+" + REG_END;
+    static final String TAG_REGEX = " \\w[^_]+" + REG_END;
     /**
      * Regex for a not empty String only containing letters.
      */
@@ -43,6 +43,7 @@ public final class Expressions {
      * Regex for a String beginning with "assign", followed by an id.
      */
     static final String ASSIGN = "^assign" + ID;
+    static final String TAG = "^tag";
 
 
     private Expressions() {

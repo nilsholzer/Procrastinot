@@ -34,7 +34,7 @@ public final class Main {
                     System.out.println(output);
                 }
             } catch (final TaskException exception) {
-                System.err.println(exception.getMessage());
+                System.out.println(exception.getMessage());
             }
         }
         commandScanner.close();

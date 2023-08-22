@@ -3,6 +3,11 @@ package edu.kit.kastel.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that contains task and sorts them according to their priority.
+ * @author uhquw
+ * @version 1.0.0
+ */
 public class TaskContainer {
     private final List<List<Task>> tasks;
     private final List<Task> high;
@@ -10,6 +15,9 @@ public class TaskContainer {
     private final List<Task> low;
     private final List<Task> noPriority;
 
+    /**
+     * Constructs a new TaskContainer and creates all the lists.
+     */
     public TaskContainer() {
         tasks = new ArrayList<>();
         high = new ArrayList<>();
@@ -22,6 +30,11 @@ public class TaskContainer {
         tasks.add(noPriority);
     }
 
+    /**
+     * Checks if the given task is contained in a list matching his priority.
+     * @param task The task to be sought
+     * @return A boolean if the task is in one of the lists
+     */
     public boolean isElement(Task task) {
         Priority priority = task.getPriority();
         if (priority == Priority.HI) {
@@ -35,6 +48,10 @@ public class TaskContainer {
         }
     }
 
+    /**
+     * Inserts the given task in the list matching his priority.
+     * @param task The task being inserted
+     */
     public void assign(Task task) {
         Priority priority = task.getPriority();
         if (priority == Priority.HI) {
@@ -48,6 +65,10 @@ public class TaskContainer {
         }
     }
 
+    /**
+     * Removes the task from the list matching his priority.
+     * @param task The task to remove
+     */
     public void remove(Task task) {
         Priority priority = task.getPriority();
         if (priority == Priority.HI) {
@@ -61,6 +82,11 @@ public class TaskContainer {
         }
     }
 
+    /**
+     * Visualizes all the tasks in a specifc visualization.
+     * @param whitespaceCount The amount of whitespaces, times 2, being added in front of the visualization
+     * @return A String containing the visualization of all the tasks in that class
+     */
     public StringBuilder show(int whitespaceCount) {
         int updatedWhitespaceCount = whitespaceCount + 1;
         StringBuilder result = new StringBuilder();
@@ -72,6 +98,11 @@ public class TaskContainer {
         return result;
     }
 
+    /**
+     * Visualizes all the tasks in a specifc visualization, if their state is opened or one of their subtasks´ state is opened.
+     * @param whitespaceCount The amount of whitespaces, times 2, being added in front of the visualization
+     * @return A String containing the visualization of all the tasks fitting the description
+     */
     public StringBuilder todo(int whitespaceCount) {
         int updatedWhitespaceCount = whitespaceCount + 1;
         StringBuilder result = new StringBuilder();
@@ -85,6 +116,11 @@ public class TaskContainer {
         return result;
     }
 
+    /**
+     * Checks if the given task is in one of the lists or is one of the children of a task in this list.
+     * @param searchedTask The task to be sought
+     * @return A boolean representing if the task is in this list or not
+     */
     public boolean isInList(Task searchedTask) {
         for (List<Task> priorities : tasks) {
             for (Task task : priorities) {
@@ -96,6 +132,10 @@ public class TaskContainer {
         return false;
     }
 
+    /**
+     * Gets all the lists and their tasks in them.
+     * @return A list of lists that contains all the tasks
+     */
     protected List<List<Task>> getTasks() {
         return tasks;
     }

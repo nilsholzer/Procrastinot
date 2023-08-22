@@ -236,15 +236,10 @@ public enum Command {
             return null;
         }
     };
-    /**
-     * Pattern, which represents the commands input.
-     */
-    public final String pt;
     private final Pattern pattern;
 
     Command(final String pattern) {
         this.pattern = Pattern.compile(pattern);
-        pt = pattern;
     }
 
     /**

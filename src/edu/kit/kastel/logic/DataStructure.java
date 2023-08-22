@@ -1,6 +1,9 @@
 package edu.kit.kastel.logic;
 
-import edu.kit.kastel.entity.*;
+import edu.kit.kastel.entity.Priority;
+import edu.kit.kastel.entity.SuperiorTasks;
+import edu.kit.kastel.entity.Task;
+import edu.kit.kastel.entity.TaskList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -92,13 +95,18 @@ public class DataStructure implements DataStructureCommands {
     @Override
     public String changePriority(int index, Priority priority) {
         Task changedTask = tasks.get(index);
-        if (superiorTasks.isElement(changedTask)) {
-            superiorTasks.remove(changedTask);
+        if (changedTask.getPriority() != priority) {
             changedTask.setPriority(priority);
-            superiorTasks.assign(changedTask);
-        } else {
-            changedTask.setPriority(priority);
+            if (superiorTasks.isElement(changedTask)) {
+                superiorTasks.remove(changedTask);
+                superiorTasks.assign(changedTask);
+            }
+            List<Integer> assignedLists = changedTask.getAssignedLists();
+            for (int listIndex : assignedLists) {
+                taskLists.get(listIndex).changePriority(changedTask);
+            }
         }
+
         return tasks.get(index).getName();
     }
 

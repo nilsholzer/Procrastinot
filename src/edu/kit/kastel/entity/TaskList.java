@@ -2,10 +2,21 @@ package edu.kit.kastel.entity;
 
 import edu.kit.kastel.TaskException;
 
+import java.util.List;
+
+/**
+ * A list that contains tasks.
+ * @author uhquw
+ * @version 1.0.0
+ */
 public class TaskList extends Entity {
 
     private final ListOfTasks listOfTasks;
 
+    /**
+     * Constructs a TaskList.
+     * @param name The name of the TaskList
+     */
     public TaskList(final String name) {
         super(name);
         listOfTasks = new ListOfTasks();
@@ -14,8 +25,8 @@ public class TaskList extends Entity {
     @Override
     public void assign(Task task) {
         if (!listOfTasks.isInList(task)) {
-            Task childTask = listOfTasks.childIsInList(task);
-            if (childTask != null) {
+            List<Task> childTasks = listOfTasks.childIsInList(task);
+            for (Task childTask : childTasks) {
                 listOfTasks.remove(childTask);
             }
             listOfTasks.assign(task);
@@ -24,18 +35,41 @@ public class TaskList extends Entity {
         }
     }
 
+    /**
+     * lists all the tasks, and their subtasks, which are in the TaskList in a given order.
+     * @return A visual representation of all the tasks in that list
+     */
     public StringBuilder list() {
         return listOfTasks.show(-1);
     }
 
+    /**
+     * Deletes a task from that list.
+     * @param task The task that should be deleted
+     */
     public void delete(Task task) {
         if (listOfTasks.isElement(task)) {
             listOfTasks.remove(task);
         }
     }
 
+    /**
+     * Puts a deleted task back in the list again.
+     * @param task The task to be restored
+     */
     public void restore(Task task) {
         if (!listOfTasks.isInList(task)) {
+            listOfTasks.assign(task);
+        }
+    }
+
+    /**
+     * Changes the position of the Task in the list.
+     * @param task The task, whose position is going to be changed
+     */
+    public void changePriority(Task task) {
+        if (listOfTasks.isElement(task)) {
+            listOfTasks.remove(task);
             listOfTasks.assign(task);
         }
     }

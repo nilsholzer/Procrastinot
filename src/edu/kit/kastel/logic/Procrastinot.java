@@ -18,6 +18,18 @@ import java.util.regex.Pattern;
  * @version 1.0.0
  */
 public final class Procrastinot implements ProcrastinotCommands {
+    private static final String ADDED_LIST = "added %1$s";
+    private static final String ADDED = ADDED_LIST + ": %2$s";
+    private static final String TAGGED = "tagged %1$s with %2$s";
+    private static final String ASSIGNED = "assigned %1$s to %2$s";
+    private static final String SUBTASKS = " %1$s and %2$s subtasks";
+    private static final String TOGGLED = "toggled" + SUBTASKS;
+    private static final String CHANGED = "changed %1$s to %2$s";
+    private static final String DELETED = "deleted" + SUBTASKS;
+    private static final String RESTORED = "restored" + SUBTASKS;
+    private static final String DUPLICATED = "Found %s duplicates: ";
+    private static final String COMMA = ", ";
+    private static final String LIST_NOT_EXIST = "A list with that name does not exist";
     private ExecutionState executionState;
     private final DataStructure dataStructure;
 
@@ -47,14 +59,14 @@ public final class Procrastinot implements ProcrastinotCommands {
         Matcher matcherPriority = patternPriority.matcher(" " + secondArg);
         if (matcherPriority.matches()) {
             prio = Priority.valueOf(secondArg);
-            hasDate(name, date, id, prio);
+            taskConstructor(name, date, id, prio);
         } else {
-            hasDate(name, secondArg, id, prio);
+            taskConstructor(name, secondArg, id, prio);
         }
-        return "added " + id + ": " + name;
+        return String.format(ADDED, id, name);
     }
 
-    private void hasDate(String name, String date, int id, Priority prio) {
+    private void taskConstructor(String name, String date, int id, Priority prio) {
         if (!date.isEmpty()) {
             dataStructure.add(new Task(id, name, prio, createDate(date)));
         } else {
@@ -68,24 +80,23 @@ public final class Procrastinot implements ProcrastinotCommands {
             throw new TaskException("A list with that name already exists");
         }
         dataStructure.addList(new TaskList(name));
-        return "added " + name;
+        return String.format(ADDED_LIST, name);
     }
 
     @Override
     public String tag(int id, String tag) {
         taskAvailable(id);
-        String name = dataStructure.tag(id - 1, tag);
-        return "tagged " + name + " with " + tag;
+        return String.format(TAGGED, dataStructure.tag(id - 1, tag), tag);
     }
 
     @Override
     public String tagList(String name, String tag) {
         int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
-            throw new TaskException("No list with this name exists");
+            throw new TaskException(LIST_NOT_EXIST);
         }
         dataStructure.tagList(listIndex, tag);
-        return "tagged " + name + " with " + tag;
+        return String.format(TAGGED, name, tag);
     }
 
     @Override
@@ -96,7 +107,7 @@ public final class Procrastinot implements ProcrastinotCommands {
             throw new TaskException("Cannot assign a task to it´s own");
         }
         String[] names = dataStructure.assign(childId - 1, parentId - 1);
-        return "assigned " + names[0] + " to " + names[1];
+        return String.format(ASSIGNED, names[0], names[1]);
     }
 
     @Override
@@ -104,24 +115,24 @@ public final class Procrastinot implements ProcrastinotCommands {
         taskAvailable(id);
         int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
-            throw new TaskException("A list with that name does not exist");
+            throw new TaskException(LIST_NOT_EXIST);
         }
         String taskName = dataStructure.assignList(id - 1, listIndex);
-        return "assigned " + taskName + " to " + name;
+        return String.format(ASSIGNED, taskName, name);
     }
 
     @Override
     public String toggle(int id) {
         taskAvailable(id);
         String[] taskInformation = dataStructure.toggle(id - 1);
-        return "toggled " + taskInformation[0] + " and " + taskInformation[1] + " subtasks";
+        return String.format(TOGGLED, taskInformation[0], taskInformation[1]);
     }
 
     @Override
     public String changeDate(int id, String date) {
         taskAvailable(id);
         String name = dataStructure.changeDate(id - 1, createDate(date));
-        return "changed " + name + " to " + date;
+        return String.format(CHANGED, name, date);
     }
 
     private LocalDate createDate(String dateString) {
@@ -137,10 +148,7 @@ public final class Procrastinot implements ProcrastinotCommands {
         taskAvailable(id);
         Priority prio = Priority.valueOf(priority);
         String name = dataStructure.changePriority(id - 1, prio);
-        if (prio == Priority.NO_PRIORITY) {
-            return "changed " + name + " to ";
-        }
-        return "changed " + name + " to " + priority;
+        return String.format(CHANGED, name, priority);
     }
 
 
@@ -149,14 +157,14 @@ public final class Procrastinot implements ProcrastinotCommands {
     public String delete(int id) {
         taskAvailable(id);
         String[] outputInformation = dataStructure.delete(id - 1);
-        return "deleted " + outputInformation[0] + " and " + outputInformation[1] + " subtasks";
+        return String.format(DELETED, outputInformation[0], outputInformation[1]);
     }
 
     @Override
     public String restore(int id) {
         taskAvailable(id);
         String[] outputInformation = dataStructure.restore(id - 1);
-        return "restored " + outputInformation[0] + " and " + outputInformation[1] + " subtasks";
+        return String.format(RESTORED, outputInformation[0], outputInformation[1]);
     }
 
     @Override
@@ -174,7 +182,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     public String list(String name) {
         int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
-            throw new TaskException("A list with that name does not exist");
+            throw new TaskException(LIST_NOT_EXIST);
         }
         return dataStructure.list(listIndex);
     }
@@ -212,9 +220,9 @@ public final class Procrastinot implements ProcrastinotCommands {
     public String duplicates() {
         List<Integer> duplicateList = dataStructure.duplicates();
         StringBuilder result = new StringBuilder();
-        result.append("Found ").append(duplicateList.size()).append(" duplicates: ");
+        result.append(String.format(DUPLICATED, duplicateList.size()));
         for (int i = 0; i < duplicateList.size() - 1; i++) {
-            result.append(duplicateList.get(i) + 1).append(", ");
+            result.append(duplicateList.get(i) + 1).append(COMMA);
         }
         result.append(duplicateList.get(duplicateList.size() - 1) + 1);
         return result.toString();

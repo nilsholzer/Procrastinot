@@ -11,6 +11,6 @@ public final class TaskException extends IllegalArgumentException {
      * @param message   describes, why exception was thrown
      */
     public TaskException(final String message) {
-        super("ERROR: " + message + ".");
+        super("ERROR:" + message + ".");
     }
 }

@@ -38,7 +38,7 @@ public final class Expressions {
     /**
      * Regex for a not empty String only containing letters.
      */
-    static final String LIST = " [A-z]+";
+    static final String LIST = " [a-zA-Z]+";
     /**
      * Regex for a String beginning with "assign", followed by an id.
      */

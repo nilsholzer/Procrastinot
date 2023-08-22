@@ -113,7 +113,7 @@ public enum Command {
             String[] split = input.split(WHITESPACE);
             int id = Integer.parseInt(split[1]);
             if (split.length == 2) {
-                return procrastinot.changePriority(id, "NO_PRIORITY");
+                return procrastinot.changePriority(id, "");
             }
             return procrastinot.changePriority(id, split[2]);
         }

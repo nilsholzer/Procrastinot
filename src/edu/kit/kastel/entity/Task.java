@@ -342,4 +342,12 @@ public final class Task extends Entity implements TaskInterface {
     public Task getParent() {
         return parent;
     }
+
+    /**
+     * Gets the currrent State of a Task.
+     * @return A State Enum that represents the current State of a Task
+     */
+    public State getCurrentState() {
+        return currentState;
+    }
 }

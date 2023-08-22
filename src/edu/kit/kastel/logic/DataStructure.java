@@ -1,6 +1,7 @@
 package edu.kit.kastel.logic;
 
 import edu.kit.kastel.entity.Priority;
+import edu.kit.kastel.entity.State;
 import edu.kit.kastel.entity.SuperiorTasks;
 import edu.kit.kastel.entity.Task;
 import edu.kit.kastel.entity.TaskList;
@@ -189,15 +190,16 @@ public class DataStructure implements DataStructureCommands {
     @Override
     public List<Integer> duplicates() {
         List<Integer> duplicateList = new ArrayList<>();
-        for (int i = 0; i < tasks.size(); i++) {
-            if (duplicateList.contains(i)) {
+        for (int searchedTaskIndex = 0; searchedTaskIndex < tasks.size(); searchedTaskIndex++) {
+            if (duplicateList.contains(searchedTaskIndex) || tasks.get(searchedTaskIndex).getCurrentState() == State.DELETED) {
                 continue;
             }
-            for (int j = 0; j < tasks.size(); j++) {
-                if (i != j && tasks.get(i).isDuplicate(tasks.get(j))) {
-                    duplicateList.add(j);
-                    if (!duplicateList.contains(i)) {
-                        duplicateList.add(i);
+            for (int comparedTaskIndex = 0; comparedTaskIndex < tasks.size(); comparedTaskIndex++) {
+                if (searchedTaskIndex != comparedTaskIndex && tasks.get(searchedTaskIndex).isDuplicate(tasks.get(comparedTaskIndex))
+                        && tasks.get(comparedTaskIndex).getCurrentState() != State.DELETED) {
+                    duplicateList.add(comparedTaskIndex);
+                    if (!duplicateList.contains(searchedTaskIndex)) {
+                        duplicateList.add(searchedTaskIndex);
                     }
                 }
             }

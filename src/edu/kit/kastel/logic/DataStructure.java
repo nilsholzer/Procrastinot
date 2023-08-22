@@ -95,15 +95,26 @@ public class DataStructure implements DataStructureCommands {
     @Override
     public String changePriority(int index, Priority priority) {
         Task changedTask = tasks.get(index);
+        List<Integer> assignedLists = changedTask.getAssignedLists();
         if (changedTask.getPriority() != priority) {
-            changedTask.setPriority(priority);
             if (superiorTasks.isElement(changedTask)) {
                 superiorTasks.remove(changedTask);
+                for (int listIndex :assignedLists) {
+                    taskLists.get(listIndex).delete(changedTask);
+                }
+                changedTask.setPriority(priority);
                 superiorTasks.assign(changedTask);
-            }
-            List<Integer> assignedLists = changedTask.getAssignedLists();
-            for (int listIndex : assignedLists) {
-                taskLists.get(listIndex).changePriority(changedTask);
+                for (int listIndex :assignedLists) {
+                    taskLists.get(listIndex).restore(changedTask);
+                }
+            } else {
+                for (int listIndex :assignedLists) {
+                    taskLists.get(listIndex).delete(changedTask);
+                }
+                changedTask.setPriority(priority);
+                for (int listIndex :assignedLists) {
+                    taskLists.get(listIndex).restore(changedTask);
+                }
             }
         }
 

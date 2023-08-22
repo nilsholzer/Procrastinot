@@ -62,15 +62,4 @@ public class TaskList extends Entity {
             listOfTasks.assign(task);
         }
     }
-
-    /**
-     * Changes the position of the Task in the list.
-     * @param task The task, whose position is going to be changed
-     */
-    public void changePriority(Task task) {
-        if (listOfTasks.isElement(task)) {
-            listOfTasks.remove(task);
-            listOfTasks.assign(task);
-        }
-    }
 }

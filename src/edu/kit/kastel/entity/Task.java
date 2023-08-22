@@ -237,14 +237,13 @@ public final class Task extends Entity implements TaskInterface {
      * @param priority The priority the tasks priority should be changed to
      */
     public void setPriority(Priority priority) {
-        if (this.priority != priority) {
+        if (parent != null) {
+            parent.removeChild(this);
             this.priority = priority;
-            if (parent != null) {
-                parent.removeChild(this);
-                parent.assign(this);
-            }
+            parent.assign(this);
+        } else {
+            this.priority = priority;
         }
-
     }
 
     /**

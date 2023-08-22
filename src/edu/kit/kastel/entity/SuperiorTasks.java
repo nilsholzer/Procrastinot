@@ -98,7 +98,7 @@ public class SuperiorTasks extends TaskContainer {
 
     /**
      * Prints out all the tasks and their subtasks, whose deadline is before the given date.
-     * @param lastDate THe date one day after the deadline should at latest be
+     * @param lastDate The date one day after the deadline should at latest be
      * @return A String containing all of the tasks and their subtasks, whose deadline is before the given date
      */
     public String dateBefore(LocalDate lastDate) {

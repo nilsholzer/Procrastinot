@@ -3,7 +3,7 @@ package edu.kit.kastel;
 /**
  * Exception that is used to catch wrong commands or command arguments.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
 public final class TaskException extends IllegalArgumentException {
     /**
@@ -11,6 +11,6 @@ public final class TaskException extends IllegalArgumentException {
      * @param message   describes, why exception was thrown
      */
     public TaskException(final String message) {
-        super("ERROR: " + message + "!");
+        super("ERROR: " + message + ".");
     }
 }

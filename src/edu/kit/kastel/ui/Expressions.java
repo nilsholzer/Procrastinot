@@ -26,7 +26,7 @@ public final class Expressions {
     /**
      * Regex for a String representing a priority with a leading whitespace.
      */
-    static final String OPTIONAL_PRIORITY = "( HI| MD| LO)?" + REG_END;
+    static final String OPTIONAL_PRIORITY = PRIORITY + "?" + REG_END;
     /**
      * Regex for a String representing every Integer greater than zero.
      */

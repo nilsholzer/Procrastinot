@@ -190,9 +190,6 @@ public class DataStructure implements DataStructureCommands {
     public List<Integer> duplicates() {
         List<Integer> duplicateList = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++) {
-            if (duplicateList.contains(i)) {
-                break;
-            }
             for (int j = 0; j < tasks.size(); j++) {
                 if (i != j && tasks.get(i).isDuplicate(tasks.get(j))) {
                     duplicateList.add(j);
@@ -200,6 +197,9 @@ public class DataStructure implements DataStructureCommands {
                         duplicateList.add(i);
                     }
                 }
+            }
+            if (!duplicateList.isEmpty()) {
+                break;
             }
         }
         Collections.sort(duplicateList);

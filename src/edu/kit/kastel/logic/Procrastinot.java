@@ -149,7 +149,10 @@ public final class Procrastinot implements ProcrastinotCommands {
         taskAvailable(id);
         Priority prio = Priority.valueOf(priority);
         String name = dataStructure.changePriority(id - 1, prio);
-        return String.format(CHANGED, name, priority);
+        if (prio == Priority.NO_PRIORITY) {
+            return String.format(CHANGED, name, prio.abbreviation);
+        }
+        return String.format(CHANGED, name, prio);
     }
 
 

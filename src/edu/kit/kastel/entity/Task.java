@@ -13,6 +13,7 @@ import java.util.List;
  */
 public final class Task extends Entity implements TaskInterface {
     private static final String DATE_SEPARATOR = "-";
+    private static final String DELETED_ERROR = "You cannot %s a deleted task";
     private static final int TEN = 10;
     private final String name;
     private final int id;
@@ -67,6 +68,7 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     private void getAssigned(Task parentTask) {
+        deletedTask("assign");
         if (parent != null)  {
             parent.removeChild(this);
         }
@@ -95,7 +97,7 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public int delete(final Task deletedTask) {
-        deletedTask("restore");
+        deletedTask("deleted");
         restoreState = currentState;
         currentState = State.DELETED;
         if (this == deletedTask) {
@@ -186,7 +188,7 @@ public final class Task extends Entity implements TaskInterface {
      */
     private void deletedTask(String errorMessage) {
         if (currentState == State.DELETED) {
-            throw new TaskException("You cannot " + errorMessage + " a deleted task");
+            throw new TaskException(String.format(DELETED_ERROR, errorMessage));
         }
     }
 

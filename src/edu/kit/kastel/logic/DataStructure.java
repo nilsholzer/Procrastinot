@@ -141,7 +141,7 @@ public class DataStructure implements DataStructureCommands {
         String[] restoreInformation = new String[2];
         restoreInformation[0] = restoredTask.getName();
         restoreInformation[1] = String.valueOf(restoredTask.restore(index + 1));
-        if (restoredTask.getParent() == null) {
+        if (restoredTask.getParent() == null && !superiorTasks.isElement(restoredTask)) {
             superiorTasks.assign(restoredTask);
         }
         List<Integer> assignedLists = restoredTask.getAssignedLists();

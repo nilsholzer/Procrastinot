@@ -25,7 +25,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     private static final String SUBTASKS = " %1$s and %2$s subtasks";
     private static final String TOGGLED = "toggled" + SUBTASKS;
     private static final String CHANGED = "changed %1$s to %2$s";
-    private static final String DELETED = "deleted" + SUBTASKS;
+    private static final String DELETED = Expressions.DELETED + SUBTASKS;
     private static final String RESTORED = "restored" + SUBTASKS;
     private static final String DUPLICATED = "Found %s duplicates: ";
     private static final String COMMA = ", ";
@@ -225,10 +225,13 @@ public final class Procrastinot implements ProcrastinotCommands {
         List<Integer> duplicateList = dataStructure.duplicates();
         StringBuilder result = new StringBuilder();
         result.append(String.format(DUPLICATED, duplicateList.size()));
-        for (int i = 0; i < duplicateList.size() - 1; i++) {
-            result.append(duplicateList.get(i) + 1).append(COMMA);
+        if (!duplicateList.isEmpty()) {
+            for (int i = 0; i < duplicateList.size() - 1; i++) {
+                result.append(duplicateList.get(i) + 1).append(COMMA);
+            }
+            result.append(duplicateList.get(duplicateList.size() - 1) + 1);
         }
-        result.append(duplicateList.get(duplicateList.size() - 1) + 1);
+
         return result.toString();
     }
 

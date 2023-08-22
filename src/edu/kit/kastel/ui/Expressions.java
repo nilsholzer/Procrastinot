@@ -11,6 +11,10 @@ public final class Expressions {
      */
     public static final String PRIORITY = " (HI|MD|LO)";
     /**
+     * String "deleted" as a Constant, so it can be used over the project.
+     */
+    public static final String DELETED = "deleted";
+    /**
      * Marks the end of a Regex and serves that the given String only matches once.
      * The String can match multiple times, when the matching String is pasted multiple times behind the String itself.
      */

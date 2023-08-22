@@ -24,7 +24,22 @@ public class ListOfTasks extends TaskContainer {
     public StringBuilder todo(int whitespaceCount) {
         throw new TaskException("Cannot execute this method with a ListOfTask");
     }
-
+    @Override
+    public StringBuilder show(int whitespaceCount) {
+        int updatedWhitespaceCount = whitespaceCount + 1;
+        StringBuilder result = new StringBuilder();
+        for (List<Task> priorities : taskList) {
+            for (Task task : priorities) {
+                if (task.getCurrentState() != State.DELETED) {
+                    result.append(System.lineSeparator()).append(task.show(updatedWhitespaceCount));
+                }
+            }
+        }
+        if (!result.isEmpty()) {
+            return result.delete(0, 1);
+        }
+        return result;
+    }
     /**
      * Checks if children of the given task are in this list.
      * @param searchedTask The task, whose children are being searched for

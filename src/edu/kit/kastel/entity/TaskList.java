@@ -39,8 +39,8 @@ public class TaskList extends Entity {
      * lists all the tasks, and their subtasks, which are in the TaskList in a given order.
      * @return A visual representation of all the tasks in that list
      */
-    public StringBuilder list() {
-        return listOfTasks.show(-1);
+    public String list() {
+        return listOfTasks.show(-1).toString();
     }
 
     /**

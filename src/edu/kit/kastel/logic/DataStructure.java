@@ -164,7 +164,7 @@ public class DataStructure implements DataStructureCommands {
 
     @Override
     public String list(int listIndex) {
-        return taskLists.get(listIndex).list().delete(0, 1).toString();
+        return taskLists.get(listIndex).list();
     }
 
     @Override

@@ -20,6 +20,17 @@ public class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
+    public StringBuilder show(int whitespaceCount) {
+        int updatedWhitespaceCount = whitespaceCount + 1;
+        StringBuilder result = new StringBuilder();
+        for (List<Task> priorities : children) {
+            for (Task task : priorities) {
+                result.append(System.lineSeparator()).append(task.show(updatedWhitespaceCount));
+            }
+        }
+        return result;
+    }
+    @Override
     public int toggle(final int toggleId) {
         int subtaskCount = 0;
         for (List<Task> priority : children) {

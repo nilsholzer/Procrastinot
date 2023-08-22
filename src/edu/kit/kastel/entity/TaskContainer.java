@@ -8,7 +8,7 @@ import java.util.List;
  * @author uhquw
  * @version 1.0.0
  */
-public class TaskContainer {
+public abstract class TaskContainer {
     private final List<List<Task>> tasks;
     private final List<Task> high;
     private final List<Task> mid;
@@ -18,7 +18,7 @@ public class TaskContainer {
     /**
      * Constructs a new TaskContainer and creates all the lists.
      */
-    public TaskContainer() {
+    protected TaskContainer() {
         tasks = new ArrayList<>();
         high = new ArrayList<>();
         tasks.add(high);
@@ -81,23 +81,6 @@ public class TaskContainer {
             noPriority.remove(task);
         }
     }
-
-    /**
-     * Visualizes all the tasks in a specifc visualization.
-     * @param whitespaceCount The amount of whitespaces, times 2, being added in front of the visualization
-     * @return A String containing the visualization of all the tasks in that class
-     */
-    public StringBuilder show(int whitespaceCount) {
-        int updatedWhitespaceCount = whitespaceCount + 1;
-        StringBuilder result = new StringBuilder();
-        for (List<Task> priorities : tasks) {
-            for (Task task : priorities) {
-                result.append(System.lineSeparator()).append(task.show(updatedWhitespaceCount));
-            }
-        }
-        return result;
-    }
-
     /**
      * Visualizes all the tasks in a specifc visualization, if their state is opened or one of their subtasks´ state is opened.
      * @param whitespaceCount The amount of whitespaces, times 2, being added in front of the visualization
@@ -139,4 +122,10 @@ public class TaskContainer {
     protected List<List<Task>> getTasks() {
         return tasks;
     }
+    /**
+     * Visualizes all the tasks in a specifc visualization.
+     * @param whitespaceCount The amount of whitespaces, times 2, being added in front of the visualization
+     * @return A String containing the visualization of all the tasks in that class
+     */
+    abstract StringBuilder show(int whitespaceCount);
 }

@@ -45,7 +45,9 @@ public class Children extends TaskContainer implements TaskInterface {
     public List<Integer> delete(final Task deletedTask, List<Integer> list) {
         for (List<Task> priority : children) {
             for (Task task : priority) {
-                list = task.delete(deletedTask, list);
+                List<Integer> updatedList = task.delete(deletedTask, list);
+                list.clear();
+                list.addAll(updatedList);
             }
         }
         return list;

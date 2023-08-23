@@ -101,15 +101,18 @@ public final class Task extends Entity implements TaskInterface {
         deletedTask(Expressions.DELETED);
         restoreState = currentState;
         currentState = State.DELETED;
-        if (!assignedLists.isEmpty()) {
-            list.add(this.id);
-        }
         if (this == deletedTask) {
             if (parent != null) {
                 parent.removeChild(this);
             }
-            list.add(0, 0);
+            list.add(0);
+            if (!assignedLists.isEmpty()) {
+                list.add(this.id);
+            }
         } else {
+            if (!assignedLists.isEmpty()) {
+                list.add(this.id);
+            }
             int childrenAmount = list.get(0) + 1;
             list.set(0, childrenAmount);
         }

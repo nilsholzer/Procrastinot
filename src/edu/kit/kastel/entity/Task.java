@@ -113,8 +113,8 @@ public final class Task extends Entity implements TaskInterface {
             if (!assignedLists.isEmpty()) {
                 list.add(this.id);
             }
-            int childrenAmount = list.get(0) + 1;
-            list.set(0, childrenAmount);
+            int childrenAmount = list.get(0);
+            list.set(0, childrenAmount + 1);
         }
         return children.delete(deletedTask, list);
     }

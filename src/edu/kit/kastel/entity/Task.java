@@ -99,7 +99,9 @@ public final class Task extends Entity implements TaskInterface {
     @Override
     public List<Integer> delete(final Task deletedTask, List<Integer> list) {
         List<Integer> copyOfList = new ArrayList<>();
-        copyOfList.addAll(list);
+        for (int value : list) {
+            copyOfList.add(value);
+        }
         deletedTask(Expressions.DELETED);
         restoreState = currentState;
         currentState = State.DELETED;

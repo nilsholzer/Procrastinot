@@ -21,7 +21,7 @@ public interface TaskInterface {
      * @param deletedTask The task to be deleted
      * @return An Integer giving the amount of subtasks of the task with the given id
      */
-    int delete(Task deletedTask);
+    List<Integer> delete(Task deletedTask, List<Integer> list);
 
     /**
      * Restores a deleted task and its children.

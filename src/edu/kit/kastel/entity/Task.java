@@ -97,18 +97,23 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     @Override
-    public int delete(final Task deletedTask) {
+    public List<Integer> delete(final Task deletedTask, List<Integer> list) {
         deletedTask(Expressions.DELETED);
         restoreState = currentState;
         currentState = State.DELETED;
+        if (!assignedLists.isEmpty()) {
+            list.add(this.id);
+        }
         if (this == deletedTask) {
             if (parent != null) {
                 parent.removeChild(this);
             }
-            return children.delete(deletedTask);
+            list.add(0, 0);
         } else {
-            return children.delete(deletedTask) + 1;
+            int childrenAmount = list.get(0) + 1;
+            list.set(0, childrenAmount);
         }
+        return children.delete(deletedTask, list);
     }
 
     @Override

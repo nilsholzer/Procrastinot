@@ -42,14 +42,13 @@ public class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public int delete(final Task deletedTask) {
-        int subtaskCount = 0;
+    public List<Integer> delete(final Task deletedTask, List<Integer> list) {
         for (List<Task> priority : children) {
             for (Task task : priority) {
-                subtaskCount += task.delete(deletedTask);
+                list = task.delete(deletedTask, list);
             }
         }
-        return subtaskCount;
+        return list;
     }
 
     @Override

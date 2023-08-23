@@ -127,10 +127,13 @@ public class DataStructure implements DataStructureCommands {
         Task deletedTask = tasks.get(index);
         String[] deleteInformation = new String[2];
         deleteInformation[0] = deletedTask.getName();
-        deleteInformation[1] = String.valueOf(deletedTask.delete(deletedTask));
-        List<Integer> assignedLists = deletedTask.getAssignedLists();
-        for (int listIndex : assignedLists) {
-            taskLists.get(listIndex).delete(deletedTask);
+        List<Integer> deletedList = deletedTask.delete(deletedTask, new ArrayList<>());
+        deleteInformation[1] = String.valueOf(deletedList.get(0));
+        for (int i = 1; i < deletedList.size(); i++) {
+            List<Integer> assignedLists = tasks.get(i - 1).getAssignedLists();
+            for (int listIndex : assignedLists) {
+                taskLists.get(listIndex).delete(deletedTask);
+            }
         }
         return deleteInformation;
     }

@@ -1,7 +1,6 @@
 package edu.kit.kastel.entity;
 
 import edu.kit.kastel.TaskException;
-import edu.kit.kastel.ui.Expressions;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public List<Integer> delete(final Task deletedTask, List<Integer> list) {
-        deletedTask(Expressions.DELETED);
+        /*deletedTask(Expressions.DELETED);
         restoreState = currentState;
         currentState = State.DELETED;
         if (this == deletedTask) {
@@ -116,7 +115,9 @@ public final class Task extends Entity implements TaskInterface {
             int childrenAmount = list.get(0);
             list.set(0, childrenAmount + 1);
         }
-        return children.delete(deletedTask, list);
+        return children.delete(deletedTask, list);*/
+        list.add(0);
+        return list;
     }
 
     @Override

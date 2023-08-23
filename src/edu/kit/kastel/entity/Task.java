@@ -98,6 +98,8 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public List<Integer> delete(final Task deletedTask, List<Integer> list) {
+        List<Integer> copyOfList = new ArrayList<>();
+        copyOfList.addAll(list);
         deletedTask(Expressions.DELETED);
         restoreState = currentState;
         currentState = State.DELETED;
@@ -105,18 +107,18 @@ public final class Task extends Entity implements TaskInterface {
             if (parent != null) {
                 parent.removeChild(this);
             }
-            list.add(0);
+            copyOfList.add(0);
             if (!assignedLists.isEmpty()) {
-                list.add(this.id);
+                copyOfList.add(this.id);
             }
         } else {
             if (!assignedLists.isEmpty()) {
-                list.add(this.id);
+                copyOfList.add(this.id);
             }
-            int childrenAmount = list.get(0);
-            list.set(0, childrenAmount + 1);
+            int childrenAmount = copyOfList.get(0);
+            copyOfList.set(0, childrenAmount + 1);
         }
-        return children.delete(deletedTask, list);
+        return children.delete(deletedTask, copyOfList);
     }
 
     @Override

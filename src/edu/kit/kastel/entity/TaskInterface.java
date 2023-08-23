@@ -19,7 +19,8 @@ public interface TaskInterface {
     /**
      * Deletes an active task and its children.
      * @param deletedTask The task to be deleted
-     * @return An Integer giving the amount of subtasks of the task with the given id
+     * @param list A list where all the results are being saved in
+     * @return A list containing the amount of children of the deleted task and all the ids of the tasks, which are in lists
      */
     List<Integer> delete(Task deletedTask, List<Integer> list);
 

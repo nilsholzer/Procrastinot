@@ -1,6 +1,7 @@
 package edu.kit.kastel.entity;
 
 import edu.kit.kastel.TaskException;
+import edu.kit.kastel.ui.Expressions;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -97,27 +98,23 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public List<Integer> delete(final Task deletedTask, List<Integer> list) {
-        /*deletedTask(Expressions.DELETED);
+        deletedTask(Expressions.DELETED);
+        List<Integer> copyList = new ArrayList<>(list);
         restoreState = currentState;
         currentState = State.DELETED;
+        if (!assignedLists.isEmpty()) {
+            copyList.add(this.id);
+        }
         if (this == deletedTask) {
             if (parent != null) {
                 parent.removeChild(this);
             }
-            list.add(0);
-            if (!assignedLists.isEmpty()) {
-                list.add(this.id);
-            }
+            copyList.add(0, 0);
         } else {
-            if (!assignedLists.isEmpty()) {
-                list.add(this.id);
-            }
-            int childrenAmount = list.get(0);
-            list.set(0, childrenAmount + 1);
+            int childrenAmount = copyList.get(0);
+            copyList.set(0, childrenAmount + 1);
         }
-        return children.delete(deletedTask, list);*/
-        list.add(55);
-        return list;
+        return children.delete(deletedTask, copyList);
     }
 
     @Override

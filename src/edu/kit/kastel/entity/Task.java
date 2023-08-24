@@ -116,7 +116,7 @@ public final class Task extends Entity implements TaskInterface {
             list.set(0, childrenAmount + 1);
         }
         return children.delete(deletedTask, list);*/
-        list.add(54);
+        list.add(55);
         return list;
     }
 

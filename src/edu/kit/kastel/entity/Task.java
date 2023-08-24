@@ -316,7 +316,7 @@ public final class Task extends Entity implements TaskInterface {
     @Override
     public List<Task> dateBetween(LocalDate startDate, LocalDate finishDate) {
         List<Task> list = new ArrayList<>();
-        if (date.isBefore(finishDate) && date.isAfter(startDate)) {
+        if (date != null && date.isBefore(finishDate) && date.isAfter(startDate)) {
             list.add(this);
         } else {
             list.addAll(children.dateBetween(startDate, finishDate));

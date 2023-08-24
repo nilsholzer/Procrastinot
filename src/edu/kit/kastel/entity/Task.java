@@ -16,6 +16,8 @@ public final class Task extends Entity implements TaskInterface {
     private static final String DATE_SEPARATOR = "-";
     private static final String DELETED_ERROR = "You cannot %s a deleted task";
     private static final int TEN = 10;
+    private static final int HUNDRED = 100;
+    private static final int THOUSAND = 1000;
     private final String name;
     private final int id;
     private Task parent;
@@ -182,11 +184,11 @@ public final class Task extends Entity implements TaskInterface {
                 result.append(":");
             }
             result.append(" --> ");
-            if (date.getYear() < 1000) {
+            if (date.getYear() < THOUSAND) {
                 result.append(0);
-                if (date.getYear() < 100) {
+                if (date.getYear() < HUNDRED) {
                     result.append(0);
-                    if (date.getYear() < 10) {
+                    if (date.getYear() < TEN) {
                         result.append(0);
                     }
                 }

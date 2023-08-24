@@ -138,6 +138,9 @@ public class DataStructure implements DataStructureCommands {
                 }
             }
         }
+        if (superiorTasks.isElement(deletedTask)) {
+            superiorTasks.remove(deletedTask);
+        }
         return deleteInformation;
     }
 

@@ -329,7 +329,7 @@ public final class Task extends Entity implements TaskInterface {
     @Override
     public List<Task> dateBefore(LocalDate lastDate) {
         List<Task> list = new ArrayList<>();
-        if (date.isBefore(lastDate)) {
+        if (date != null && date.isBefore(lastDate)) {
             list.add(this);
         } else {
             list.addAll(children.dateBefore(lastDate));

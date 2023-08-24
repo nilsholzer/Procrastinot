@@ -84,6 +84,9 @@ public class SuperiorTasks extends TaskContainer {
         StringBuilder result = new StringBuilder();
         for (List<Task> priority : superiorTasks) {
             for (Task task : priority) {
+                if (task.getCurrentState() == State.DELETED) {
+                    continue;
+                }
                 List<Task> list = task.dateBetween(startDate, finishDate);
                 for (Task betweenTask : list) {
                     result.append(System.lineSeparator()).append(betweenTask.show(0));

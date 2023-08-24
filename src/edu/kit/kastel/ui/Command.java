@@ -3,14 +3,13 @@ package edu.kit.kastel.ui;
 import edu.kit.kastel.TaskException;
 import edu.kit.kastel.logic.Procrastinot;
 
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * The type of commands.
  * @author uhquw
- * @version 1.0.1
+ * @version 1.0.2
  */
 public enum Command {
     /**
@@ -239,7 +238,7 @@ public enum Command {
             return null;
         }
     };
-    private static final String WHITESPACE = File.separator + "s+";
+    private static final String WHITESPACE = "\\s+";
     private static final String NO_PRIORITY = "NO_PRIORITY";
     private static final int FOUR = 4;
     private static final int THREE = 3;

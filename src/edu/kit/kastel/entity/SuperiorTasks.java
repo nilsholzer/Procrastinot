@@ -108,6 +108,9 @@ public class SuperiorTasks extends TaskContainer {
         StringBuilder result = new StringBuilder();
         for (List<Task> priority : superiorTasks) {
             for (Task task : priority) {
+                if (task.getCurrentState() == State.DELETED) {
+                    continue;
+                }
                 List<Task> list = task.dateBefore(lastDate);
                 for (Task beforeTask : list) {
                     result.append(System.lineSeparator()).append(beforeTask.show(0));

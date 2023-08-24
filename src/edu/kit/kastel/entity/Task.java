@@ -97,7 +97,7 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     @Override
-    public List<Integer> delete(final Task deletedTask, List<Integer> list) {
+    public List<Integer> delete(final int deleteId, final List<Integer> list) {
         deletedTask(Expressions.DELETED);
         List<Integer> copyList = new ArrayList<>(list);
         restoreState = currentState;
@@ -105,7 +105,7 @@ public final class Task extends Entity implements TaskInterface {
         if (!assignedLists.isEmpty()) {
             copyList.add(this.id);
         }
-        if (this == deletedTask) {
+        if (this.id == deleteId) {
             if (parent != null) {
                 parent.removeChild(this);
             }
@@ -114,15 +114,19 @@ public final class Task extends Entity implements TaskInterface {
             int childrenAmount = copyList.get(0);
             copyList.set(0, childrenAmount + 1);
         }
-        return children.delete(deletedTask, copyList);
+        return children.delete(deleteId, copyList);
     }
 
     @Override
-    public int restore(final int restoreId) {
+    public List<Integer> restore(final int restoreId, final List<Integer> list) {
         if (currentState != State.DELETED) {
             throw new TaskException("You cannot restore an active task");
         }
+        List<Integer> copyList = new ArrayList<>(list);
         currentState = restoreState;
+        if (!assignedLists.isEmpty()) {
+            copyList.add(this.id);
+        }
         if (this.id == restoreId) {
             if (parent != null) {
                 if (parent.currentState != State.DELETED) {
@@ -132,10 +136,12 @@ public final class Task extends Entity implements TaskInterface {
                     parent = null;
                 }
             }
-            return children.restore(restoreId);
+            copyList.add(0, 0);
         } else {
-            return children.restore(restoreId) + 1;
+            int childrenAmount = copyList.get(0) + 1;
+            copyList.set(0, childrenAmount);
         }
+        return children.restore(restoreId, copyList);
     }
 
     /**

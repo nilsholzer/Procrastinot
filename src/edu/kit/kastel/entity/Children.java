@@ -42,10 +42,10 @@ public class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public List<Integer> delete(final Task deletedTask, List<Integer> list) {
+    public List<Integer> delete(final int deleteId, List<Integer> list) {
         for (List<Task> priority : children) {
             for (Task task : priority) {
-                List<Integer> updatedList = task.delete(deletedTask, list);
+                List<Integer> updatedList = task.delete(deleteId, list);
                 list.clear();
                 list.addAll(updatedList);
             }
@@ -54,14 +54,15 @@ public class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public int restore(final int restoreId) {
-        int subtaskCount = 0;
-        for (List<Task> list : children) {
-            for (Task task : list) {
-                subtaskCount += task.restore(restoreId);
+    public List<Integer> restore(final int restoreId, List<Integer> list) {
+        for (List<Task> priority : children) {
+            for (Task task : priority) {
+                List<Integer> updatedList = task.restore(restoreId, list);
+                list.clear();
+                list.addAll(updatedList);
             }
         }
-        return subtaskCount;
+        return list;
     }
 
     @Override

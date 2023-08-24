@@ -18,18 +18,19 @@ public interface TaskInterface {
 
     /**
      * Deletes an active task and its children.
-     * @param deletedTask The task to be deleted
+     * @param deleteId The id of the task to be deleted
      * @param list A list where all the results are being saved in
      * @return A list containing the amount of children of the deleted task and all the ids of the tasks, which are in lists
      */
-    List<Integer> delete(Task deletedTask, List<Integer> list);
+    List<Integer> delete(int deleteId, List<Integer> list);
 
     /**
      * Restores a deleted task and its children.
      * @param restoreId The id of the task to be restored
+     * @param list A list where all the results are being saved in
      * @return An Integer giving the amount of subtasks of the task with the given id
      */
-    int restore(int restoreId);
+    List<Integer> restore(int restoreId, List<Integer> list);
 
     /**
      * Searches, if a Task´s or one of the subtask´s state is open.

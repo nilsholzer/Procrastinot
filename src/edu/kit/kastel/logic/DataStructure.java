@@ -127,14 +127,14 @@ public class DataStructure implements DataStructureCommands {
         Task deletedTask = tasks.get(index);
         String[] deleteInformation = new String[2];
         deleteInformation[0] = deletedTask.getName();
-        List<Integer> deletedList = deletedTask.delete(deletedTask, new ArrayList<>());
+        List<Integer> deletedList = deletedTask.delete(index, new ArrayList<>());
         deleteInformation[1] = String.valueOf(deletedList.get(0));
         if (deletedList.size() > 1) {
             List<Integer> deletedListTasks = deletedList.stream().skip(1).toList();
             for (int taskIndex : deletedListTasks) {
                 List<Integer> assignedLists = tasks.get(taskIndex - 1).getAssignedLists();
                 for (int listIndex : assignedLists) {
-                    taskLists.get(listIndex).delete(deletedTask);
+                    taskLists.get(listIndex).delete(tasks.get(taskIndex - 1));
                 }
             }
         }
@@ -146,13 +146,20 @@ public class DataStructure implements DataStructureCommands {
         Task restoredTask = tasks.get(index);
         String[] restoreInformation = new String[2];
         restoreInformation[0] = restoredTask.getName();
-        restoreInformation[1] = String.valueOf(restoredTask.restore(index + 1));
+        List<Integer> restoredList = restoredTask.restore(index + 1, new ArrayList<>());
+        restoreInformation[1] = String.valueOf(restoredList.get(0));
         if (restoredTask.getParent() == null && !superiorTasks.isElement(restoredTask)) {
             superiorTasks.assign(restoredTask);
         }
-        List<Integer> assignedLists = restoredTask.getAssignedLists();
-        for (int listIndex : assignedLists) {
-            taskLists.get(listIndex).restore(restoredTask);
+        if (restoredList.size() > 1) {
+            List<Integer> restoredListTasks = restoredList.stream().skip(1).toList();
+            for (int taskIndex : restoredListTasks) {
+                Task listTask = tasks.get(taskIndex - 1);
+                List<Integer> assignedLists = listTask.getAssignedLists();
+                for (int listIndex : assignedLists) {
+                    taskLists.get(listIndex).restore(listTask);
+                }
+            }
         }
         return restoreInformation;
     }

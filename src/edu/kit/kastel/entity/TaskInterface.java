@@ -66,4 +66,10 @@ public interface TaskInterface {
      * @return A list of all the tasks, whose deadline is before the given date
      */
     List<Task> dateBefore(LocalDate lastDate);
+
+    /**
+     * Assigns to a Task and all its children a list.
+     * @param listIndex The index of the list, the task and all its children are beign assigned to
+     */
+    void assignList(int listIndex);
 }

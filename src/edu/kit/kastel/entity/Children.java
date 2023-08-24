@@ -120,4 +120,12 @@ public class Children extends TaskContainer implements TaskInterface {
         }
         return list;
     }
+    @Override
+    public void assignList(final int listIndex) {
+        for (List<Task> priority : children) {
+            for (Task task : priority) {
+                task.assignList(listIndex);
+            }
+        }
+    }
 }

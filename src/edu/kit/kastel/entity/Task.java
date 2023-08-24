@@ -275,12 +275,10 @@ public final class Task extends Entity implements TaskInterface {
         this.date = date;
     }
 
-    /**
-     * Adds the index of the list to the assignedList, if a task was assigned to a new list.
-     * @param listIndex The index of the new assigned list
-     */
-    public void assignList(int listIndex) {
+    @Override
+    public void assignList(final int listIndex) {
         assignedLists.add(listIndex);
+        children.assignList(listIndex);
     }
 
     /**

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * This class contains all the tasks and lists for the application.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
 public final class DataStructure implements DataStructureCommands {
     private final SuperiorTasks superiorTasks;
@@ -45,23 +45,23 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public void addList(TaskList taskList) {
+    public void addList(final TaskList taskList) {
         taskLists.add(taskList);
     }
 
     @Override
-    public String tag(int index, String tag) {
+    public String tag(final int index, final String tag) {
         tasks.get(index).tag(tag);
         return tasks.get(index).getName();
     }
 
     @Override
-    public void tagList(int listIndex, String tag) {
+    public void tagList(final int listIndex, final String tag) {
         taskLists.get(listIndex).tag(tag);
     }
 
     @Override
-    public String[] assign(int childIndex, int parentIndex) {
+    public String[] assign(final int childIndex, final int parentIndex) {
         String[] names = new String[2];
         names[0] = tasks.get(childIndex).getName();
         names[1] = tasks.get(parentIndex).getName();
@@ -73,14 +73,14 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public String assignList(int index, int listIndex) {
+    public String assignList(final int index, final int listIndex) {
         taskLists.get(listIndex).assign(tasks.get(index));
         tasks.get(index).assignList(listIndex);
         return tasks.get(index).getName();
     }
 
     @Override
-    public String[] toggle(int index) {
+    public String[] toggle(final int index) {
         String[] taskInformation = new String[2];
         taskInformation[0] = tasks.get(index).getName();
         taskInformation[1] = String.valueOf(tasks.get(index).toggle(index + 1));
@@ -88,13 +88,13 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public String changeDate(int index, LocalDate date) {
+    public String changeDate(final int index, final LocalDate date) {
         tasks.get(index).setDate(date);
         return tasks.get(index).getName();
     }
 
     @Override
-    public String changePriority(int index, Priority priority) {
+    public String changePriority(final int index, final Priority priority) {
         Task changedTask = tasks.get(index);
         List<Integer> assignedLists = changedTask.getAssignedLists();
         if (changedTask.getPriority() != priority) {
@@ -123,7 +123,7 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public String[] delete(int index) {
+    public String[] delete(final int index) {
         Task deletedTask = tasks.get(index);
         String[] deleteInformation = new String[2];
         deleteInformation[0] = deletedTask.getName();
@@ -145,7 +145,7 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public String[] restore(int index) {
+    public String[] restore(final int index) {
         Task restoredTask = tasks.get(index);
         String[] restoreInformation = new String[2];
         restoreInformation[0] = restoredTask.getName();
@@ -168,7 +168,7 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public String show(int index) {
+    public String show(final int index) {
         return tasks.get(index).show(0);
     }
 
@@ -179,27 +179,27 @@ public final class DataStructure implements DataStructureCommands {
     }
 
     @Override
-    public String list(int listIndex) {
+    public String list(final int listIndex) {
         return taskLists.get(listIndex).list();
     }
 
     @Override
-    public String taggedWith(String tag) {
+    public String taggedWith(final String tag) {
         return superiorTasks.taggedWith(tag);
     }
 
     @Override
-    public String find(String name) {
+    public String find(final String name) {
         return superiorTasks.find(name);
     }
 
     @Override
-    public String between(LocalDate startDate, LocalDate finishDate) {
+    public String between(final LocalDate startDate, final LocalDate finishDate) {
         return superiorTasks.dateBetween(startDate, finishDate);
     }
 
     @Override
-    public String before(LocalDate lastDate) {
+    public String before(final LocalDate lastDate) {
         return superiorTasks.dateBefore(lastDate);
     }
 
@@ -229,7 +229,7 @@ public final class DataStructure implements DataStructureCommands {
      * @param name The name of the list to be searched
      * @return The index of the list, if a list with this name exists {@code -1} if there is no list with this name
      */
-    public int listIndex(String name) {
+    public int listIndex(final String name) {
         for (int i = 0; i < taskLists.size(); i++) {
             if (name.equals(taskLists.get(i).getName())) {
                 return i;

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * A TaskContainer that only contains children of one Task.
  * @author uhquw
- * @version 1.0.1
+ * @version 1.0.2
  */
 public final class Children extends TaskContainer implements TaskInterface {
     private final List<List<Task>> children;
@@ -20,7 +20,7 @@ public final class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public StringBuilder show(int whitespaceCount) {
+    public StringBuilder show(final int whitespaceCount) {
         int updatedWhitespaceCount = whitespaceCount + 1;
         StringBuilder result = new StringBuilder();
         for (List<Task> priorities : children) {
@@ -54,7 +54,7 @@ public final class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public List<Integer> restore(final int restoreId, List<Integer> list) {
+    public List<Integer> restore(final int restoreId, final List<Integer> list) {
         for (List<Task> priority : children) {
             for (Task task : priority) {
                 List<Integer> updatedList = task.restore(restoreId, list);
@@ -78,7 +78,7 @@ public final class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public List<Task> find(String name) {
+    public List<Task> find(final String name) {
         List<Task> list = new ArrayList<>();
         for (List<Task> priority : children) {
             for (Task task : priority) {
@@ -89,7 +89,7 @@ public final class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public List<Task> taggedWith(String tag) {
+    public List<Task> taggedWith(final String tag) {
         List<Task> list = new ArrayList<>();
         for (List<Task> priority : children) {
             for (Task task : priority) {
@@ -100,7 +100,7 @@ public final class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public List<Task> dateBetween(LocalDate startDate, LocalDate finishDate) {
+    public List<Task> dateBetween(final LocalDate startDate, final LocalDate finishDate) {
         List<Task> list = new ArrayList<>();
         for (List<Task> priority : children) {
             for (Task task : priority) {
@@ -111,7 +111,7 @@ public final class Children extends TaskContainer implements TaskInterface {
     }
 
     @Override
-    public List<Task> dateBefore(LocalDate lastDate) {
+    public List<Task> dateBefore(final LocalDate lastDate) {
         List<Task> list = new ArrayList<>();
         for (List<Task> priority : children) {
             for (Task task : priority) {

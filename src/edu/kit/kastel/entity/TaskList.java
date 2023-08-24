@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * A list that contains tasks.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
 public final class TaskList extends Entity {
 
@@ -23,7 +23,7 @@ public final class TaskList extends Entity {
     }
 
     @Override
-    public void assign(Task task) {
+    public void assign(final Task task) {
         if (!listOfTasks.isInList(task)) {
             List<Task> childTasks = listOfTasks.childIsInList(task);
             for (Task childTask : childTasks) {
@@ -47,7 +47,7 @@ public final class TaskList extends Entity {
      * Deletes a task from that list.
      * @param task The task that should be deleted
      */
-    public void delete(Task task) {
+    public void delete(final Task task) {
         if (listOfTasks.isElement(task)) {
             listOfTasks.remove(task);
         }
@@ -57,7 +57,7 @@ public final class TaskList extends Entity {
      * Puts a deleted task back in the list again.
      * @param task The task to be restored
      */
-    public void restore(Task task) {
+    public void restore(final Task task) {
         if (!listOfTasks.isInList(task)) {
             listOfTasks.assign(task);
         }

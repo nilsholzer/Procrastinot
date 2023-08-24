@@ -3,7 +3,7 @@ package edu.kit.kastel.entity;
 /**
  * The different priorities of a task.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.1.1
  */
 public enum Priority {
     /**
@@ -26,8 +26,16 @@ public enum Priority {
     /**
      * The abbreviation of the priority.
      */
-    public final String abbreviation;
-    Priority(final String abbreviation) {
-        this.abbreviation = abbreviation;
+    private final String visualization;
+    Priority(final String visualization) {
+        this.visualization = visualization;
+    }
+
+    /**
+     * Gets the abbreviation of a priority.
+     * @return A String representing the visualization
+     */
+    public String getVisualization() {
+        return visualization;
     }
 }

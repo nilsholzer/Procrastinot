@@ -1,12 +1,13 @@
 package edu.kit.kastel.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * A class that contains task and sorts them according to their priority.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.1.0
  */
 public abstract class TaskContainer {
     private final List<List<Task>> tasks;
@@ -35,7 +36,7 @@ public abstract class TaskContainer {
      * @param task The task to be sought
      * @return A boolean if the task is in one of the lists
      */
-    public boolean isElement(Task task) {
+    public boolean isElement(final Task task) {
         Priority priority = task.getPriority();
         if (priority == Priority.HI) {
             return high.contains(task);
@@ -52,7 +53,7 @@ public abstract class TaskContainer {
      * Inserts the given task in the list matching his priority.
      * @param task The task being inserted
      */
-    public void assign(Task task) {
+    public void assign(final Task task) {
         Priority priority = task.getPriority();
         if (priority == Priority.HI) {
             high.add(task);
@@ -69,7 +70,7 @@ public abstract class TaskContainer {
      * Removes the task from the list matching his priority.
      * @param task The task to remove
      */
-    public void remove(Task task) {
+    public void remove(final Task task) {
         Priority priority = task.getPriority();
         if (priority == Priority.HI) {
             high.remove(task);
@@ -86,7 +87,7 @@ public abstract class TaskContainer {
      * @param whitespaceCount The amount of whitespaces, times 2, being added in front of the visualization
      * @return A String containing the visualization of all the tasks fitting the description
      */
-    public StringBuilder todo(int whitespaceCount) {
+    public StringBuilder todo(final int whitespaceCount) {
         int updatedWhitespaceCount = whitespaceCount + 1;
         StringBuilder result = new StringBuilder();
         for (List<Task> priorities : tasks) {
@@ -104,7 +105,7 @@ public abstract class TaskContainer {
      * @param searchedTask The task to be sought
      * @return A boolean representing if the task is in this list or not
      */
-    public boolean isInList(Task searchedTask) {
+    public boolean isInList(final Task searchedTask) {
         for (List<Task> priorities : tasks) {
             for (Task task : priorities) {
                 if (task.isInList(searchedTask)) {
@@ -120,7 +121,7 @@ public abstract class TaskContainer {
      * @return A list of lists that contains all the tasks
      */
     protected List<List<Task>> getTasks() {
-        return tasks;
+        return Collections.unmodifiableList(tasks);
     }
     /**
      * Visualizes all the tasks in a specifc visualization.

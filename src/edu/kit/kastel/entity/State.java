@@ -3,7 +3,7 @@ package edu.kit.kastel.entity;
 /**
  * The different states of a task.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.1.0
  */
 public enum State {
     /**
@@ -22,8 +22,16 @@ public enum State {
     /**
      * The abbreviation of the state.
      */
-    public final String abbreviation;
-    State(final String abbreviation) {
-        this.abbreviation = abbreviation;
+    private final String visualization;
+    State(final String visualization) {
+        this.visualization = visualization;
+    }
+
+    /**
+     * Gets the visualization of a state.
+     * @return A String represeting the visualization
+     */
+    public String getVisualization() {
+        return visualization;
     }
 }

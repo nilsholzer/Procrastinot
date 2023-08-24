@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 /**
  * This class handles all commands and the logic for the application.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
 public final class Procrastinot implements ProcrastinotCommands {
     private static final String ADDED_LIST = "added %1$s";
@@ -53,7 +53,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String add(String name, String secondArg, String date) {
+    public String add(final String name, final String secondArg, final String date) {
         int id = dataStructure.taskAmount() + 1;
         Priority prio = Priority.NO_PRIORITY;
         Pattern patternPriority = Pattern.compile(Expressions.PRIORITY);
@@ -67,7 +67,7 @@ public final class Procrastinot implements ProcrastinotCommands {
         return String.format(ADDED, id, name);
     }
 
-    private void taskConstructor(String name, String date, int id, Priority prio) {
+    private void taskConstructor(final String name, final String date, final int id, final Priority prio) {
         if (!date.isEmpty()) {
             dataStructure.add(new Task(id, name, prio, createDate(date)));
         } else {
@@ -76,7 +76,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String addList(String name) {
+    public String addList(final String name) {
         if (dataStructure.listIndex(name) != -1) {
             throw new TaskException("A list with that name already exists");
         }
@@ -85,13 +85,13 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String tag(int id, String tag) {
+    public String tag(final int id, final String tag) {
         taskAvailable(id);
         return String.format(TAGGED, dataStructure.tag(id - 1, tag), tag);
     }
 
     @Override
-    public String tagList(String name, String tag) {
+    public String tagList(final String name, final String tag) {
         int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
             throw new TaskException(LIST_NOT_EXIST);
@@ -101,7 +101,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String assign(int childId, int parentId) {
+    public String assign(final int childId, final int parentId) {
         taskAvailable(childId);
         taskAvailable(parentId);
         if (childId == parentId) {
@@ -112,7 +112,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String assignList(int id, String name) {
+    public String assignList(final int id, final String name) {
         taskAvailable(id);
         int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
@@ -123,20 +123,20 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String toggle(int id) {
+    public String toggle(final int id) {
         taskAvailable(id);
         String[] taskInformation = dataStructure.toggle(id - 1);
         return String.format(TOGGLED, taskInformation[0], taskInformation[1]);
     }
 
     @Override
-    public String changeDate(int id, String date) {
+    public String changeDate(final int id, final String date) {
         taskAvailable(id);
         String name = dataStructure.changeDate(id - 1, createDate(date));
         return String.format(CHANGED, name, date);
     }
 
-    private LocalDate createDate(String dateString) {
+    private LocalDate createDate(final String dateString) {
         try {
             return LocalDate.parse(dateString);
         } catch (DateTimeException exception) {
@@ -145,12 +145,12 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String changePriority(int id, String priority) {
+    public String changePriority(final int id, final String priority) {
         taskAvailable(id);
         Priority prio = Priority.valueOf(priority);
         String name = dataStructure.changePriority(id - 1, prio);
         if (prio == Priority.NO_PRIORITY) {
-            return String.format(CHANGED, name, prio.abbreviation);
+            return String.format(CHANGED, name, prio.getVisualization());
         }
         return String.format(CHANGED, name, prio);
     }
@@ -158,21 +158,21 @@ public final class Procrastinot implements ProcrastinotCommands {
 
 
     @Override
-    public String delete(int id) {
+    public String delete(final int id) {
         taskAvailable(id);
         String[] outputInformation = dataStructure.delete(id - 1);
         return String.format(DELETED, outputInformation[0], outputInformation[1]);
     }
 
     @Override
-    public String restore(int id) {
+    public String restore(final int id) {
         taskAvailable(id);
         String[] outputInformation = dataStructure.restore(id - 1);
         return String.format(RESTORED, outputInformation[0], outputInformation[1]);
     }
 
     @Override
-    public String show(int id) {
+    public String show(final int id) {
         taskAvailable(id);
         return dataStructure.show(id - 1);
     }
@@ -183,7 +183,7 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String list(String name) {
+    public String list(final String name) {
         int listIndex = dataStructure.listIndex(name);
         if (listIndex == -1) {
             throw new TaskException(LIST_NOT_EXIST);
@@ -192,29 +192,29 @@ public final class Procrastinot implements ProcrastinotCommands {
     }
 
     @Override
-    public String taggedWith(String tag) {
+    public String taggedWith(final String tag) {
         return dataStructure.taggedWith(tag);
     }
 
     @Override
-    public String find(String name) {
+    public String find(final String name) {
         return dataStructure.find(name);
     }
 
     @Override
-    public String upcoming(String date) {
+    public String upcoming(final String date) {
         LocalDate startDate = createDate(date).minusDays(1);
         LocalDate finishDate = createDate(date).plusDays(SEVEN);
         return dataStructure.between(startDate, finishDate);
     }
 
     @Override
-    public String before(String date) {
+    public String before(final String date) {
         return dataStructure.before(createDate(date).plusDays(1));
     }
 
     @Override
-    public String between(String startDate, String finishDate) {
+    public String between(final String startDate, final String finishDate) {
         LocalDate firstDate = createDate(startDate).minusDays(1);
         LocalDate lastDate = createDate(finishDate).plusDays(1);
         return dataStructure.between(firstDate, lastDate);
@@ -235,7 +235,7 @@ public final class Procrastinot implements ProcrastinotCommands {
         return result.toString();
     }
 
-    private void taskAvailable(int id) {
+    private void taskAvailable(final int id) {
         if (id > dataStructure.taskAmount()) {
             throw new TaskException("There is no task with the given ID");
         }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * A TaskContainer, which only contains tasks with no parent.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.1.0
  */
 public final class SuperiorTasks extends TaskContainer {
     private static final String EMPTY = "";
@@ -84,9 +84,6 @@ public final class SuperiorTasks extends TaskContainer {
         StringBuilder result = new StringBuilder();
         for (List<Task> priority : superiorTasks) {
             for (Task task : priority) {
-                if (task.getCurrentState() == State.DELETED) {
-                    continue;
-                }
                 List<Task> list = task.dateBetween(startDate, finishDate);
                 for (Task betweenTask : list) {
                     result.append(System.lineSeparator()).append(betweenTask.show(0));
@@ -108,9 +105,6 @@ public final class SuperiorTasks extends TaskContainer {
         StringBuilder result = new StringBuilder();
         for (List<Task> priority : superiorTasks) {
             for (Task task : priority) {
-                if (task.getCurrentState() == State.DELETED) {
-                    continue;
-                }
                 List<Task> list = task.dateBefore(lastDate);
                 for (Task beforeTask : list) {
                     result.append(System.lineSeparator()).append(beforeTask.show(0));

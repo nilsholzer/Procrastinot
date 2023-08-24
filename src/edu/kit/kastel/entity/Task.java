@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * A task used in the application. Two tasks are identical, if their name and their deadline is identical.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.3.2
  */
 public final class Task extends Entity implements TaskInterface {
     private static final String DATE_SEPARATOR = "-";
@@ -70,7 +70,7 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     @Override
-    public void assign(Task task) {
+    public void assign(final Task task) {
         deletedTask(ERROR_ASSIGN);
         if (!children.isElement(task)) {
             task.getAssigned(this);
@@ -80,7 +80,7 @@ public final class Task extends Entity implements TaskInterface {
         }
     }
 
-    private void getAssigned(Task parentTask) {
+    private void getAssigned(final Task parentTask) {
         deletedTask(ERROR_GET_ASSIGNED);
         if (parent != null)  {
             parent.removeChild(this);
@@ -88,7 +88,7 @@ public final class Task extends Entity implements TaskInterface {
         parent = parentTask;
     }
 
-    private void removeChild(Task task) {
+    private void removeChild(final Task task) {
         children.remove(task);
     }
 
@@ -178,7 +178,7 @@ public final class Task extends Entity implements TaskInterface {
     private String toString(final int whitespaceCount) {
         StringBuilder result = new StringBuilder();
         result.append("  ".repeat(Math.max(0, whitespaceCount)));
-        result.append(DATE_SEPARATOR).append(currentState.abbreviation).append(name).append(priority.abbreviation);
+        result.append(DATE_SEPARATOR).append(currentState.getVisualization()).append(name).append(priority.getVisualization());
         if (!tags.isEmpty()) {
             result.append(TAG_OPENER);
             for (int tagCount = 0; tagCount < tags.size() - 1; tagCount++) {
@@ -217,7 +217,7 @@ public final class Task extends Entity implements TaskInterface {
      * Checks if a task´s currentState is deleted or not.
      * @param errorMessage The specific error Message if the task is deleted
      */
-    private void deletedTask(String errorMessage) {
+    private void deletedTask(final String errorMessage) {
         if (currentState == State.DELETED) {
             throw new TaskException(String.format(DELETED_ERROR, errorMessage));
         }
@@ -245,22 +245,25 @@ public final class Task extends Entity implements TaskInterface {
      * @param task The task being searched for
      * @return A boolean if the task is this task or one of the children is/contains this task
      */
-    public boolean isInList(Task task) {
+    public boolean isInList(final Task task) {
         return task == this || children.isInList(task);
     }
 
     /**
      * Checks if the given task is a parent of a specific degree of this task.
-     * @param task The task to look for
+     * @param searchedTask The task to look for
      * @return A boolean representing if the task is a parent of a specific degree
      */
-    public boolean isAParent(Task task) {
-        if (parent == null) {
-            return false;
-        } else if (task == parent) {
-            return true;
+    public boolean isAParent(final Task searchedTask) {
+        Task parentSearcher = this;
+        while (true) {
+            if (parentSearcher.parent == null) {
+                return false;
+            } else if (searchedTask == parentSearcher.parent) {
+                return true;
+            }
+            parentSearcher = parentSearcher.parent;
         }
-        return parent.isAParent(task);
     }
 
     /**
@@ -275,7 +278,7 @@ public final class Task extends Entity implements TaskInterface {
      * Changes the priority of a task and changes its position in the parents children list.
      * @param priority The priority the tasks priority should be changed to
      */
-    public void setPriority(Priority priority) {
+    public void setPriority(final Priority priority) {
         if (parent != null) {
             parent.removeChild(this);
             this.priority = priority;
@@ -289,7 +292,7 @@ public final class Task extends Entity implements TaskInterface {
      * Changes the deadline of a task.
      * @param date The value the deadline should be changed to
      */
-    public void setDate(LocalDate date) {
+    public void setDate(final LocalDate date) {
         this.date = date;
     }
 
@@ -307,7 +310,7 @@ public final class Task extends Entity implements TaskInterface {
         return Collections.unmodifiableList(assignedLists);
     }
     @Override
-    public List<Task> find(String name) {
+    public List<Task> find(final String name) {
         List<Task> list = new ArrayList<>();
         if (this.name.contains(name)) {
             list.add(this);
@@ -318,7 +321,7 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     @Override
-    public List<Task> taggedWith(String tag) {
+    public List<Task> taggedWith(final String tag) {
         List<Task> list = new ArrayList<>();
         for (String taskTag : tags) {
             if (taskTag.equals(tag)) {
@@ -332,7 +335,10 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     @Override
-    public List<Task> dateBetween(LocalDate startDate, LocalDate finishDate) {
+    public List<Task> dateBetween(final LocalDate startDate, final LocalDate finishDate) {
+        if (currentState == State.DELETED) {
+            return Collections.emptyList();
+        }
         List<Task> list = new ArrayList<>();
         if (date != null && date.isBefore(finishDate) && date.isAfter(startDate)) {
             list.add(this);
@@ -343,7 +349,10 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     @Override
-    public List<Task> dateBefore(LocalDate lastDate) {
+    public List<Task> dateBefore(final LocalDate lastDate) {
+        if (currentState == State.DELETED) {
+            return Collections.emptyList();
+        }
         List<Task> list = new ArrayList<>();
         if (date != null && date.isBefore(lastDate)) {
             list.add(this);
@@ -359,7 +368,7 @@ public final class Task extends Entity implements TaskInterface {
      * @param task The task this task is being compared to
      * @return A boolean if the requirements apply
      */
-    public boolean isDuplicate(Task task) {
+    public boolean isDuplicate(final Task task) {
         return ((date == null || task.date == null) || date.equals(task.date)) && name.equals(task.getName());
     }
 

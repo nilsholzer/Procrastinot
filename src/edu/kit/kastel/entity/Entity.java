@@ -3,12 +3,13 @@ package edu.kit.kastel.entity;
 import edu.kit.kastel.TaskException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Abstract class that contains methods & variables a Task & TaskList needs.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
 public abstract class Entity {
     private final String name;
@@ -36,7 +37,7 @@ public abstract class Entity {
      * @param tag The String to add to tags
      * @throws TaskException if tags contains already the given parameter tag
      */
-    public void tag(String tag) {
+    public void tag(final String tag) {
         if (tags.contains(tag)) {
             throw new TaskException(name + " already contains given tag");
         }
@@ -48,7 +49,7 @@ public abstract class Entity {
      * @return A list of Strings representing the tags of the entity
      */
     protected List<String> getTags() {
-        return tags;
+        return Collections.unmodifiableList(tags);
     }
 
     /**

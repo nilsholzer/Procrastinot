@@ -21,11 +21,11 @@ public final class ListOfTasks extends TaskContainer {
     }
 
     @Override
-    public StringBuilder todo(int whitespaceCount) {
+    public StringBuilder todo(final int whitespaceCount) {
         throw new TaskException("Cannot execute this method with a ListOfTask");
     }
     @Override
-    public StringBuilder show(int whitespaceCount) {
+    public StringBuilder show(final int whitespaceCount) {
         int updatedWhitespaceCount = whitespaceCount + 1;
         StringBuilder result = new StringBuilder();
         for (List<Task> priorities : taskList) {
@@ -45,7 +45,7 @@ public final class ListOfTasks extends TaskContainer {
      * @param searchedTask The task, whose children are being searched for
      * @return A list of tasks containing the children of the given task, that are in this list
      */
-    public List<Task> childIsInList(Task searchedTask) {
+    public List<Task> childIsInList(final Task searchedTask) {
         List<Task> childTasks = new ArrayList<>();
         for (List<Task> priority : taskList) {
             for (Task task : priority) {

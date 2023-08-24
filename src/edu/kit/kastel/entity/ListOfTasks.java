@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * A TaskContainer containing only tasks that are part of a list.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
-public class ListOfTasks extends TaskContainer {
+public final class ListOfTasks extends TaskContainer {
     private final List<List<Task>> taskList;
 
     /**

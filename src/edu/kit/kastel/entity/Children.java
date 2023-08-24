@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * A TaskContainer that only contains children of one Task.
  * @author uhquw
- * @version 1.0.0
+ * @version 1.0.1
  */
-public class Children extends TaskContainer implements TaskInterface {
+public final class Children extends TaskContainer implements TaskInterface {
     private final List<List<Task>> children;
 
     /**

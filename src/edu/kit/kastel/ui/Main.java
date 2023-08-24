@@ -10,13 +10,12 @@ import java.util.Scanner;
 /**
  * Main class that runs the application.
  * @author uhquw
- * @version 1.00
+ * @version 1.0.1
  */
 public final class Main {
-    private static final String UTILITY_CLASS_INSTANTIATION = "Utility class cannot be instantiated";
 
     private Main() {
-        throw new IllegalArgumentException(UTILITY_CLASS_INSTANTIATION);
+        throw new UnsupportedOperationException(Expressions.UTILITY_CLASS_INSTANTIATION);
     }
 
     /**

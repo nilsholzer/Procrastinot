@@ -182,6 +182,15 @@ public final class Task extends Entity implements TaskInterface {
                 result.append(":");
             }
             result.append(" --> ");
+            if (date.getYear() < 1000) {
+                result.append(0);
+                if (date.getYear() < 100) {
+                    result.append(0);
+                    if (date.getYear() < 10) {
+                        result.append(0);
+                    }
+                }
+            }
             result.append(date.getYear()).append(DATE_SEPARATOR);
             if (date.getMonthValue() < TEN) {
                 result.append(0);

@@ -16,7 +16,7 @@ import java.util.List;
  * @author uhquw
  * @version 1.0.0
  */
-public class DataStructure implements DataStructureCommands {
+public final class DataStructure implements DataStructureCommands {
     private final SuperiorTasks superiorTasks;
     private final List<Task> tasks;
     private final List<TaskList> taskLists;

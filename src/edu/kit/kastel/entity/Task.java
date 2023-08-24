@@ -5,6 +5,7 @@ import edu.kit.kastel.ui.Expressions;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,9 +16,18 @@ import java.util.List;
 public final class Task extends Entity implements TaskInterface {
     private static final String DATE_SEPARATOR = "-";
     private static final String DELETED_ERROR = "You cannot %s a deleted task";
+    private static final String ERROR_GET_ASSIGNED = "assign";
+    private static final String ERROR_ASSIGN = ERROR_GET_ASSIGNED + " a task to";
+    private static final String ERROR_TOGGLE = "toggle";
     private static final int TEN = 10;
     private static final int HUNDRED = 100;
     private static final int THOUSAND = 1000;
+    private static final String ERROR_SHOW = "show";
+    private static final String TAG_OPENER = ": (";
+    private static final String COMMA = ", ";
+    private static final String TAG_CLOSER = ")";
+    private static final String OPENER = ":";
+    private static final String DATE_OPENER = " --> ";
     private final String name;
     private final int id;
     private Task parent;
@@ -61,7 +71,7 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public void assign(Task task) {
-        deletedTask("assign a task to");
+        deletedTask(ERROR_ASSIGN);
         if (!children.isElement(task)) {
             task.getAssigned(this);
             children.assign(task);
@@ -71,7 +81,7 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     private void getAssigned(Task parentTask) {
-        deletedTask("assign");
+        deletedTask(ERROR_GET_ASSIGNED);
         if (parent != null)  {
             parent.removeChild(this);
         }
@@ -84,7 +94,7 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public int toggle(final int toggleId) {
-        deletedTask("toggle");
+        deletedTask(ERROR_TOGGLE);
         if (this.id == toggleId) {
             if (currentState.equals(State.OPEN)) {
                 currentState = State.CLOSED;
@@ -152,12 +162,9 @@ public final class Task extends Entity implements TaskInterface {
      * @return A String containing the task and all its subtasks put to a String
      */
     public String show(final int whitespaceCount) {
-        deletedTask("show");
-        StringBuilder result = new StringBuilder();
-        result.append(toString(whitespaceCount));
-        result.append(children.show(whitespaceCount));
+        deletedTask(ERROR_SHOW);
 
-        return result.toString();
+        return toString(whitespaceCount) + children.show(whitespaceCount);
     }
 
     /**
@@ -173,17 +180,17 @@ public final class Task extends Entity implements TaskInterface {
         result.append("  ".repeat(Math.max(0, whitespaceCount)));
         result.append(DATE_SEPARATOR).append(currentState.abbreviation).append(name).append(priority.abbreviation);
         if (!tags.isEmpty()) {
-            result.append(": (");
+            result.append(TAG_OPENER);
             for (int tagCount = 0; tagCount < tags.size() - 1; tagCount++) {
-                result.append(tags.get(tagCount)).append(", ");
+                result.append(tags.get(tagCount)).append(COMMA);
             }
-            result.append(tags.get(tags.size() - 1)).append(")");
+            result.append(tags.get(tags.size() - 1)).append(TAG_CLOSER);
         }
         if (date != null) {
             if (tags.isEmpty()) {
-                result.append(":");
+                result.append(OPENER);
             }
-            result.append(" --> ");
+            result.append(DATE_OPENER);
             if (date.getYear() < THOUSAND) {
                 result.append(0);
                 if (date.getYear() < HUNDRED) {
@@ -297,7 +304,7 @@ public final class Task extends Entity implements TaskInterface {
      * @return A list containing Integers representing the indices of the lists, the task got assigned to
      */
     public List<Integer> getAssignedLists() {
-        return assignedLists;
+        return Collections.unmodifiableList(assignedLists);
     }
     @Override
     public List<Task> find(String name) {

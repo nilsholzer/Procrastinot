@@ -9,7 +9,7 @@ import java.util.List;
  * @author uhquw
  * @version 1.0.0
  */
-public class TaskList extends Entity {
+public final class TaskList extends Entity {
 
     private final ListOfTasks listOfTasks;
 

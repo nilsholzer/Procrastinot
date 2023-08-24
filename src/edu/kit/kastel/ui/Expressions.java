@@ -11,7 +11,7 @@ public final class Expressions {
      */
     public static final String PRIORITY = " (HI|MD|LO)";
     /**
-     * String "deleted" as a Constant, so it can be used over the project.
+     * String "deleted" as a constant, so it can be used over the project.
      */
     public static final String DELETED = "deleted";
     /**

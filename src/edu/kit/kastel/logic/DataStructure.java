@@ -97,25 +97,23 @@ public final class DataStructure implements DataStructureCommands {
     public String changePriority(final int index, final Priority priority) {
         Task changedTask = tasks.get(index);
         List<Integer> assignedLists = changedTask.getAssignedLists();
-        if (changedTask.getPriority() != priority) {
-            if (superiorTasks.isElement(changedTask)) {
-                superiorTasks.remove(changedTask);
-                for (int listIndex :assignedLists) {
-                    taskLists.get(listIndex).delete(changedTask);
-                }
-                changedTask.setPriority(priority);
-                superiorTasks.assign(changedTask);
-                for (int listIndex :assignedLists) {
-                    taskLists.get(listIndex).restore(changedTask);
-                }
-            } else {
-                for (int listIndex :assignedLists) {
-                    taskLists.get(listIndex).delete(changedTask);
-                }
-                changedTask.setPriority(priority);
-                for (int listIndex :assignedLists) {
-                    taskLists.get(listIndex).restore(changedTask);
-                }
+        if (changedTask.getPriority() != priority && superiorTasks.isElement(changedTask)) {
+            superiorTasks.remove(changedTask);
+            for (int listIndex : assignedLists) {
+                taskLists.get(listIndex).delete(changedTask);
+            }
+            changedTask.setPriority(priority);
+            superiorTasks.assign(changedTask);
+            for (int listIndex :assignedLists) {
+                taskLists.get(listIndex).restore(changedTask);
+            }
+        } else {
+            for (int listIndex :assignedLists) {
+                taskLists.get(listIndex).delete(changedTask);
+            }
+            changedTask.setPriority(priority);
+            for (int listIndex :assignedLists) {
+                taskLists.get(listIndex).restore(changedTask);
             }
         }
 

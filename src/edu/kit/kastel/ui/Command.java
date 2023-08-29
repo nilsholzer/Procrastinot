@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * The type of commands.
  * @author uhquw
- * @version 1.0.2
+ * @version 1.0.3
  */
 public enum Command {
     /**
@@ -21,10 +21,20 @@ public enum Command {
             String[] split = input.split(WHITESPACE);
             String secondArg = "";
             String date = "";
-            if (split.length > 2) {
-                secondArg = split[2];
-                if (split.length == FOUR) {
-                    date = split[THREE];
+            if (!split[0].isEmpty()) {
+                if (split.length > 2) {
+                    secondArg = split[2];
+                    if (split.length == FOUR) {
+                        date = split[THREE];
+                    }
+                }
+            } else {
+                split[1] = split[2];
+                if (split.length > THREE) {
+                    secondArg = split[THREE];
+                    if (split.length == FIVE) {
+                        date = split[FOUR];
+                    }
                 }
             }
             return procrastinot.add(split[1], secondArg, date);
@@ -239,6 +249,7 @@ public enum Command {
     };
     private static final String WHITESPACE = "\\s+";
     private static final String NO_PRIORITY = "NO_PRIORITY";
+    private static final int FIVE = 5;
     private static final int FOUR = 4;
     private static final int THREE = 3;
     private final Pattern pattern;

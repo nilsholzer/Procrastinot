@@ -11,18 +11,15 @@ import java.util.List;
 /**
  * A task used in the application. Two tasks are identical, if their name and their deadline is identical.
  * @author uhquw
- * @version 1.3.2
+ * @version 1.3.5
  */
 public final class Task extends Entity implements TaskInterface {
     private static final String DATE_SEPARATOR = "-";
     private static final String DELETED_ERROR = "You cannot %s a deleted task";
-    private static final String ERROR_GET_ASSIGNED = "assign";
-    private static final String ERROR_ASSIGN = ERROR_GET_ASSIGNED + " a task to";
-    private static final String ERROR_TOGGLE = "toggle";
+    private static final String ERROR_ASSIGN = Expressions.ASSIGN + " a task to";
     private static final int TEN = 10;
     private static final int HUNDRED = 100;
     private static final int THOUSAND = 1000;
-    private static final String ERROR_SHOW = "show";
     private static final String TAG_OPENER = ": (";
     private static final String COMMA = ", ";
     private static final String TAG_CLOSER = ")";
@@ -81,7 +78,7 @@ public final class Task extends Entity implements TaskInterface {
     }
 
     private void getAssigned(final Task parentTask) {
-        deletedTask(ERROR_GET_ASSIGNED);
+        deletedTask(Expressions.ASSIGN);
         if (parent != null)  {
             parent.removeChild(this);
         }
@@ -94,7 +91,7 @@ public final class Task extends Entity implements TaskInterface {
 
     @Override
     public int toggle(final int toggleId) {
-        deletedTask(ERROR_TOGGLE);
+        deletedTask(Expressions.TOGGLE);
         if (this.id == toggleId) {
             if (currentState.equals(State.OPEN)) {
                 currentState = State.CLOSED;
@@ -162,7 +159,7 @@ public final class Task extends Entity implements TaskInterface {
      * @return A String containing the task and all its subtasks put to a String
      */
     public String show(final int whitespaceCount) {
-        deletedTask(ERROR_SHOW);
+        deletedTask(Expressions.SHOW);
 
         return toString(whitespaceCount) + children.show(whitespaceCount);
     }

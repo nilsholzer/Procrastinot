@@ -9,32 +9,22 @@ import java.util.regex.Pattern;
 /**
  * The type of commands.
  * @author uhquw
- * @version 1.0.3
+ * @version 1.1.0
  */
 public enum Command {
     /**
      * This command adds a new task.
      */
-    ADD(Expressions.ADD_COMMAND) {
+    ADD(Expressions.getAddCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
             String secondArg = "";
             String date = "";
-            if (!split[0].isEmpty()) {
-                if (split.length > 2) {
-                    secondArg = split[2];
-                    if (split.length == FOUR) {
-                        date = split[THREE];
-                    }
-                }
-            } else {
-                split[1] = split[2];
-                if (split.length > THREE) {
-                    secondArg = split[THREE];
-                    if (split.length == FIVE) {
-                        date = split[FOUR];
-                    }
+            if (split.length > 2) {
+                secondArg = split[2];
+                if (split.length == FOUR) {
+                    date = split[THREE];
                 }
             }
             return procrastinot.add(split[1], secondArg, date);
@@ -43,7 +33,7 @@ public enum Command {
     /**
      * This command adds a new list.
      */
-    ADD_LIST("^add-list" + Expressions.LIST + Expressions.END) {
+    ADD_LIST(Expressions.getAddListCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -53,7 +43,7 @@ public enum Command {
     /**
      * This command tags a task with a tag.
      */
-    TAG(Expressions.TAG + Expressions.ID + Expressions.TAG_REGEX) {
+    TAG(Expressions.getTagCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -64,7 +54,7 @@ public enum Command {
     /**
      * This command tags a list with a tag.
      */
-    TAG_LIST(Expressions.TAG + Expressions.LIST + Expressions.TAG_REGEX) {
+    TAG_LIST(Expressions.getTagListCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -74,7 +64,7 @@ public enum Command {
     /**
      * This command assigns one task to another task.
      */
-    ASSIGN(Expressions.ASSIGN + Expressions.ID + Expressions.END) {
+    ASSIGN(Expressions.getAssignCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -86,7 +76,7 @@ public enum Command {
     /**
      * This command assigns a task to a list.
      */
-    ASSIGN_LIST(Expressions.ASSIGN + Expressions.LIST + Expressions.END) {
+    ASSIGN_LIST(Expressions.getAssignListCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -97,7 +87,7 @@ public enum Command {
     /**
      * This command toggles a task and all its subtasks.
      */
-    TOGGLE("^toggle" + Expressions.ID + Expressions.END) {
+    TOGGLE(Expressions.getOnlyIdCommand(Expressions.TOGGLE)) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -107,7 +97,7 @@ public enum Command {
     /**
      * This command changes the deadline of a task.
      */
-    CHANGE_DATE("^change-date" + Expressions.ID + Expressions.DATE + Expressions.END) {
+    CHANGE_DATE(Expressions.getChangeDateCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -118,7 +108,7 @@ public enum Command {
     /**
      * This command changes the priority of a task.
      */
-    CHANGE_PRIORITY("^change-priority" + Expressions.ID + Expressions.OPTIONAL_PRIORITY) {
+    CHANGE_PRIORITY(Expressions.getChangePriorityCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -132,7 +122,7 @@ public enum Command {
     /**
      * This command deletes a task and all its subtasks.
      */
-    DELETE("^delete" + Expressions.ID + Expressions.END) {
+    DELETE(Expressions.getOnlyIdCommand("delete")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -142,7 +132,7 @@ public enum Command {
     /**
      * This command restores a task and all its subtasks.
      */
-    RESTORE("^restore" + Expressions.ID + Expressions.END) {
+    RESTORE(Expressions.getOnlyIdCommand("restore")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -152,7 +142,7 @@ public enum Command {
     /**
      * This command shows a task and all its subtasks.
      */
-    SHOW("^show" + Expressions.ID + Expressions.END) {
+    SHOW(Expressions.getOnlyIdCommand(Expressions.SHOW)) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -162,7 +152,7 @@ public enum Command {
     /**
      * This command shows all tasks that are not completed.
      */
-    TODO("^todo$") {
+    TODO(Expressions.getOneWordCommand("todo")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             return procrastinot.todo();
@@ -171,7 +161,7 @@ public enum Command {
     /**
      * This command shows all tasks, and their subtasks, that are part of a specific list.
      */
-    LIST("^list" + Expressions.LIST + Expressions.END) {
+    LIST(Expressions.getListCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -181,7 +171,7 @@ public enum Command {
     /**
      * This command shows all tasks, and their subtasks, that are tagged with a specific tag.
      */
-    TAGGED_WITH("^tagged-with" + Expressions.TAG_REGEX) {
+    TAGGED_WITH(Expressions.getTaggedWithCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -191,7 +181,7 @@ public enum Command {
     /**
      * This command lists all tasks, and their subtasks, whose name contains a specific String.
      */
-    FIND("^find" + Expressions.NAME + Expressions.END) {
+    FIND(Expressions.getFindCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -201,7 +191,7 @@ public enum Command {
     /**
      * This command lists all tasks, and their subtasks, whose deadline is within the next 7 days of the specific date.
      */
-    UPCOMING("^upcoming" + Expressions.DATE + Expressions.END) {
+    UPCOMING(Expressions.getDateCommand("upcoming")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -211,7 +201,7 @@ public enum Command {
     /**
      * This command lists all tasks, and their subtasks, whose deadline is before and on the specific date.
      */
-    BEFORE("^before" + Expressions.DATE + Expressions.END) {
+    BEFORE(Expressions.getDateCommand("before")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -221,7 +211,7 @@ public enum Command {
     /**
      * This command lists all tasks, and their subtasks, whose deadline is in between the two specific dates.
      */
-    BETWEEN("^between" + Expressions.DATE + Expressions.DATE + Expressions.END) {
+    BETWEEN(Expressions.getBetweenCommand()) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
@@ -231,7 +221,7 @@ public enum Command {
     /**
      * This command finds tasks which have duplicates.
      */
-    DUPLICATES("^duplicates$") {
+    DUPLICATES(Expressions.getOneWordCommand("duplicates")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             return procrastinot.duplicates();
@@ -240,7 +230,7 @@ public enum Command {
     /**
      * This command quits the application.
      */
-    QUIT("^quit$") {
+    QUIT(Expressions.getOneWordCommand("quit")) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             procrastinot.quit();
@@ -249,7 +239,6 @@ public enum Command {
     };
     private static final String WHITESPACE = "\\s+";
     private static final String NO_PRIORITY = "NO_PRIORITY";
-    private static final int FIVE = 5;
     private static final int FOUR = 4;
     private static final int THREE = 3;
     private final Pattern pattern;
@@ -269,7 +258,7 @@ public enum Command {
         for (final Command command : values()) {
             final Matcher matcher = command.pattern.matcher(input);
             if (matcher.matches()) {
-                return command.execute(input, procrastinot);
+                return command.execute(input.trim(), procrastinot);
             }
         }
         throw new TaskException("Invalid Command or Command arguments, try again");

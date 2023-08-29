@@ -3,7 +3,7 @@ package edu.kit.kastel.ui;
 /**
  * This class contains important Strings needed everywhere in the project.
  * @author uhquw
- * @version 1.1.0
+ * @version 1.1.1
  */
 public final class Expressions {
 
@@ -34,6 +34,7 @@ public final class Expressions {
     /**
      * Marks the end of a Regex and serves that the given String only matches once.
      * The String can match multiple times, when the matching String is pasted multiple times behind the String itself.
+     * Also there can be zero or more whitespaces at the end.
      */
     private static final String END = "\\s*$";
     /**
@@ -56,7 +57,15 @@ public final class Expressions {
      * Regex for a not empty String only containing letters.
      */
     private static final String LIST = "\\s+[a-zA-Z]+";
+    /**
+     * Marks the beginning of a Regex and serves that the given String only matches once.
+     * The String can match multiple times, when the matching String is pasted multiple times behind the String itself.
+     * Also there can be zero or more whitespaces at the beginning.
+     */
     private static final String START = "^\\s*";
+    /**
+     * Marks a point, where a String should be inserted.
+     */
     private static final String INSERT = "%s";
     private static final String ADD_COMMAND = START + "add" + NAME + "((" + PRIORITY + "|" + DATE + ")?|(" + PRIORITY + DATE + "))" + END;
     private static final String ADD_LIST_COMMAND = START + "add-list" + LIST + END;
@@ -72,6 +81,9 @@ public final class Expressions {
     private static final String BETWEEN_COMMAND = START + "between" + DATE + DATE + END;
     private static final String DATE_NAME = "date";
     private static final String PRIORITY_NAME = "priority";
+    /**
+     * Regex, that can be placed after a regular expression, meaning that the expression is optional.
+     */
     private static final String OPTIONAL = "?";
     private Expressions() {
         throw new UnsupportedOperationException(UTILITY_CLASS_INSTANTIATION);

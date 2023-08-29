@@ -23,7 +23,8 @@ public final class Expressions {
      * Marks the end of a Regex and serves that the given String only matches once.
      * The String can match multiple times, when the matching String is pasted multiple times behind the String itself.
      */
-    static final String REG_END = "$";
+    static final String START = "^\\s+";
+    static final String END = "\\s+$";
     /**
      * Regex for a String with no new lines or whitespaces.
      */
@@ -35,7 +36,7 @@ public final class Expressions {
     /**
      * Regex for a String representing a priority with a leading whitespace.
      */
-    static final String OPTIONAL_PRIORITY = PRIORITY + "?" + REG_END;
+    static final String OPTIONAL_PRIORITY = PRIORITY + "?" + END;
     /**
      * Regex for a String representing every Integer greater than zero.
      */
@@ -43,7 +44,7 @@ public final class Expressions {
     /**
      * Regex for a not empty String only containing letters and numbers.
      */
-    static final String TAG_REGEX = " [a-zA-Z0-9]+" + REG_END;
+    static final String TAG_REGEX = " [a-zA-Z0-9]+" + END;
     /**
      * Regex for a not empty String only containing letters.
      */
@@ -54,7 +55,7 @@ public final class Expressions {
     static final String ASSIGN = "^assign" + ID;
     static final String TAG = "^tag";
     //static final String BETR = "^add\\s+\\S+((\\s+(HI|MD|LO)|\\s+\\d{4}-\\d{2}-\\d{2})?|(\\s+(HI|MD|LO)\\s+\\d{4}-\\d{2}-\\d{2}))$";
-    static final String ADD_COMMAND = "^add" + NAME + "((" + PRIORITY + "|" + DATE + ")?|(" + PRIORITY + DATE + "))" + REG_END;
+    static final String ADD_COMMAND = START + "add" + NAME + "((" + PRIORITY + "|" + DATE + ")?|(" + PRIORITY + DATE + "))" + END;
 
 
     private Expressions() {

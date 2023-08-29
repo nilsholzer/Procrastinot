@@ -3,7 +3,7 @@ package edu.kit.kastel.ui;
 /**
  * This class contains important Strings needed everywhere in the project.
  * @author uhquw
- * @version 1.0.2
+ * @version 1.0.4
  */
 public final class Expressions {
 
@@ -23,8 +23,8 @@ public final class Expressions {
      * Marks the end of a Regex and serves that the given String only matches once.
      * The String can match multiple times, when the matching String is pasted multiple times behind the String itself.
      */
-    static final String START = "^\\s+";
-    static final String END = "\\s+$";
+    static final String START = "^\\s*";
+    static final String END = "\\s*$";
     /**
      * Regex for a String with no new lines or whitespaces.
      */

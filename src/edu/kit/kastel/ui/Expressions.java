@@ -14,7 +14,7 @@ public final class Expressions {
     /**
      * Regex for a String representing a priority.
      */
-    public static final String PRIORITY = " (HI|MD|LO)";
+    public static final String PRIORITY = "\\s+(HI|MD|LO)";
     /**
      * String "deleted" as a constant, so it can be used over the project.
      */
@@ -27,11 +27,11 @@ public final class Expressions {
     /**
      * Regex for a String with no new lines or whitespaces.
      */
-    static final String NAME = " \\S+";
+    static final String NAME = "\\s+\\S+";
     /**
      * Regex for a String representing a date in format: YYYY-MM-DD.
      */
-    static final String DATE = " \\d{4}-\\d{2}-\\d{2}";
+    static final String DATE = "\\s+\\d{4}-\\d{2}-\\d{2}";
     /**
      * Regex for a String representing a priority with a leading whitespace.
      */
@@ -53,6 +53,8 @@ public final class Expressions {
      */
     static final String ASSIGN = "^assign" + ID;
     static final String TAG = "^tag";
+    //static final String BETR = "^add\\s+\\S+((\\s+(HI|MD|LO)|\\s+\\d{4}-\\d{2}-\\d{2})?|(\\s+(HI|MD|LO)\\s+\\d{4}-\\d{2}-\\d{2}))$";
+    static final String ADD_COMMAND = "^add" + NAME + "((" + PRIORITY + "|" + DATE + ")?|(" + PRIORITY + DATE + "))" + REG_END;
 
 
     private Expressions() {

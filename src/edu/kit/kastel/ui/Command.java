@@ -15,8 +15,7 @@ public enum Command {
     /**
      * This command adds a new task.
      */
-    ADD("^add" + Expressions.NAME + "((" + Expressions.PRIORITY + "|" + Expressions.DATE + ")?|("
-            + Expressions.PRIORITY + Expressions.DATE + "))" + Expressions.REG_END) {
+    ADD(Expressions.ADD_COMMAND) {
         @Override
         String execute(String input, Procrastinot procrastinot) {
             String[] split = input.split(WHITESPACE);
